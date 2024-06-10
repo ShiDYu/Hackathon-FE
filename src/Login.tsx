@@ -1,7 +1,7 @@
 import { fireAuth } from "./firebase";
 import React, { useEffect } from "react";
 import { GoogleAuthProvider, FacebookAuthProvider, GithubAuthProvider, EmailAuthProvider } from "firebase/auth";
-import firebaseui from "firebaseui";
+import * as firebaseui from 'firebaseui';
 import "firebaseui/dist/firebaseui.css";  // FirebaseUIのCSSファイルのインポート
 
 export const Login: React.FC = () => {
