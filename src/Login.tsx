@@ -2,7 +2,14 @@ import { fireAuth } from "./firebase";
 import React, { useEffect } from "react";
 import { GoogleAuthProvider, FacebookAuthProvider, GithubAuthProvider, EmailAuthProvider } from "firebase/auth";
 import * as firebaseui from 'firebaseui';
-import "firebaseui/dist/firebaseui.css";  // FirebaseUIのCSSファイルのインポート
+import "firebaseui/dist/firebaseui.css";
+
+// グローバルオブジェクトにFirebaseUIインスタンスを追加するための宣言
+declare global {
+    interface Window {
+        firebaseUiInstance?: firebaseui.auth.AuthUI;
+    }
+}
 
 export const Login: React.FC = () => {
     useEffect(() => {
@@ -14,16 +21,22 @@ export const Login: React.FC = () => {
                 GithubAuthProvider.PROVIDER_ID,
                 EmailAuthProvider.PROVIDER_ID
             ],
-            signInFlow: 'popup'
+            signInFlow: 'redirect',
         };
 
-        const ui = new firebaseui.auth.AuthUI(fireAuth);
-        ui.start('#firebaseui-auth-container', uiConfig);
+        // FirebaseUIのインスタンスが既に存在するかをチェック
+        if (!window.firebaseUiInstance) {
+            window.firebaseUiInstance = new firebaseui.auth.AuthUI(fireAuth);
+        }
+        
+        // インスタンスが存在する場合、startを呼び出す
+        window.firebaseUiInstance.start('#firebaseui-auth-container', uiConfig);
 
-    }, []); // 依存配列が正しく設定されているか確認
+    }, []); 
 
     return <div id="firebaseui-auth-container"></div>;
 };
+
 
 
 
