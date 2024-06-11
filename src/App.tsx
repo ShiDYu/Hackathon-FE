@@ -1,13 +1,16 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Login } from './Login';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { SignIn } from './SignIn';
+import { Profile } from './updateProfile';
+
 
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+     {/*<header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
@@ -21,7 +24,16 @@ function App() {
           Learn React
         </a>
       </header>
-      <Login/>
+      */}
+      <Router>
+            <Routes>
+                {/* path="/profile"に一致するURLがアクセスされたときにProfileコンポーネントをレンダリングする */}
+                <Route path="/profile" element={<Profile/>} />
+
+                {/* その他のすべてのURLパスに対してAuthコンポーネントをレンダリングする */}
+                <Route path="/" element={<SignIn/>} />
+            </Routes>
+        </Router>
     </div>
   );
 }
