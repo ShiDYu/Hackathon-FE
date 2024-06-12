@@ -11,9 +11,9 @@ import { firebaseConfig } from './firebase';
 
 
 function App() {
-  useEffect(() => {
+  {/*useEffect(() => {
     console.log('Process.env', firebaseConfig);
-  }, []);
+  }, []);*/}
   return (
     <div className="App">
      {/*<header className="App-header">
