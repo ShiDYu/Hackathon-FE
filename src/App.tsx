@@ -4,6 +4,8 @@ import './App.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { SignIn } from './SignIn';
 import { Profile } from './updateProfile';
+import { TweetList } from './TweetList';
+import { CreateTweet } from './createTweets';
 
 
 
@@ -28,8 +30,10 @@ function App() {
       <Router>
             <Routes>
                 {/* path="/profile"に一致するURLがアクセスされたときにProfileコンポーネントをレンダリングする */}
+                
                 <Route path="/profile" element={<Profile/>} />
-
+                <Route path="/tweets" element={<TweetList/>} />
+                <Route path="/create-tweet" element={<CreateTweet />} />
                 {/* その他のすべてのURLパスに対してAuthコンポーネントをレンダリングする */}
                 <Route path="/" element={<SignIn/>} />
             </Routes>
