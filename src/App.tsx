@@ -6,10 +6,14 @@ import { SignIn } from './SignIn';
 import { Profile } from './updateProfile';
 import { TweetList } from './TweetList';
 import { CreateTweet } from './createTweets';
+import { useEffect } from 'react';
 
 
 
 function App() {
+  useEffect(() => {
+    console.log('Process.env', process.env.REACT_APP_API_URL);
+  }, []);
   return (
     <div className="App">
      {/*<header className="App-header">
@@ -30,7 +34,7 @@ function App() {
       <Router>
             <Routes>
                 {/* path="/profile"に一致するURLがアクセスされたときにProfileコンポーネントをレンダリングする */}
-                
+
                 <Route path="/profile" element={<Profile/>} />
                 <Route path="/tweets" element={<TweetList/>} />
                 <Route path="/create-tweet" element={<CreateTweet />} />
