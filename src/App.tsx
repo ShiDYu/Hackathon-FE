@@ -7,12 +7,12 @@ import { Profile } from './updateProfile';
 import { TweetList } from './TweetList';
 import { CreateTweet } from './createTweets';
 import { useEffect } from 'react';
-
+import { firebaseConfig } from './firebase';
 
 
 function App() {
   useEffect(() => {
-    console.log('Process.env', process.env.REACT_APP_API_URL);
+    console.log('Process.env', firebaseConfig);
   }, []);
   return (
     <div className="App">
