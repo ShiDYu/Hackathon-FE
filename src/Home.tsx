@@ -8,7 +8,7 @@ export const Home: React.FC = () => {
     return (
         <div>
             <h2>Welcome to Our App</h2>
-            <button onClick = {()=>navigate("/login")}>ログイン</button>
+            <button onClick = {()=>navigate("/signin")}>ログイン</button>
             <button onClick = {()=>navigate("/signup")}>サインアップ</button>
         </div>
     );

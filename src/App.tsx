@@ -2,12 +2,14 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { SignIn } from './SignIn';
 import { Profile } from './updateProfile';
 import { TweetList } from './TweetList';
 import { CreateTweet } from './createTweets';
 import { useEffect } from 'react';
 import { firebaseConfig } from './firebase';
+import { SignUp } from './SignUp';
+import { Home } from './Home';
+import { SignIn } from './SignIn';
 
 
 function App() {
@@ -34,12 +36,13 @@ function App() {
       <Router>
             <Routes>
                 {/* path="/profile"に一致するURLがアクセスされたときにProfileコンポーネントをレンダリングする */}
-
+                <Route path="/signin" element={<SignIn />} />
+                <Route path="/signup" element={<SignUp />} />
                 <Route path="/profile" element={<Profile/>} />
                 <Route path="/tweets" element={<TweetList/>} />
                 <Route path="/create-tweet" element={<CreateTweet />} />
                 {/* その他のすべてのURLパスに対してAuthコンポーネントをレンダリングする */}
-                <Route path="/" element={<SignIn/>} />
+                <Route path="/" element={<Home/>} />
             </Routes>
         </Router>
     </div>

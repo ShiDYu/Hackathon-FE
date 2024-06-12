@@ -1,78 +1,60 @@
-import { fireAuth } from "./firebase";
-import React, { useEffect } from "react";
-import { GoogleAuthProvider, FacebookAuthProvider, GithubAuthProvider, EmailAuthProvider,  onAuthStateChanged } from "firebase/auth";
-import * as firebaseui from 'firebaseui';
-import "firebaseui/dist/firebaseui.css"; // デフォルトのCSS
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { GoogleLoginButton } from 'react-social-login-buttons';
+import { signInWithGoogle, signInWithEmail } from './firebase';
+import './SignIn.css';
 
-declare global {
-    interface Window {
-        firebaseUiInstance?: firebaseui.auth.AuthUI;
-    }
-}
+// サインイン画面に登録が済んでいないユーザーはこちらみたいなボタンを作りたい
 
 export const SignIn: React.FC = () => {
-    const navigate = useNavigate(); // React Router v6 の useNavigate フックを使用
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    useEffect(() => {
-        const uiConfig = {
-            signInSuccessUrl: '/profile',  // サインイン成功後のリダイレクト先
-            signInOptions: [
-                GoogleAuthProvider.PROVIDER_ID,
-                FacebookAuthProvider.PROVIDER_ID,
-                GithubAuthProvider.PROVIDER_ID,
-                EmailAuthProvider.PROVIDER_ID
-            ],
-            signInFlow: 'popup',
-            callbacks: {
-                signInSuccessWithAuthResult: (authResult: any, redirectUrl: string) => {
-                    // サインイン成功時に呼び出される
-                    const uid = authResult.user.uid;
-                    sendUidToBackend({ id: uid });
-                    navigate('/profile'); // プログラム的にプロフィールページにリダイレクト
-                    return false; // デフォルトのリダイレクトを防ぐ
-                },
-            },
-        };
+    const handleGoogleSignIn = async () => {
+    try {
+        await signInWithGoogle();
+        navigate('/tweets');
+    } catch (error) {
+        console.error('Error signing in with Google:', error);
+    }
+};
 
-        if (!window.firebaseUiInstance) {
-            window.firebaseUiInstance = new firebaseui.auth.AuthUI(fireAuth);
-        }
-
-        window.firebaseUiInstance.start('#firebaseui-auth-container', uiConfig);
-
-        onAuthStateChanged(fireAuth, (user) => {
-            if (user) {
-                const uid = user.uid;
-                sendUidToBackend({ id: uid });
-            }
-        });
-    }, [navigate]);
-
-    const sendUidToBackend = async (userInfo: { id: string }) => {
-        console.log('Sending UID to backend:', userInfo); // ここでログを出力
-        try {
-            const response = await fetch('http://localhost:8000/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(userInfo)
-            });
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.json();
-            console.log('Backend response:', data);
-        } catch (error) {
-            console.error('Error sending UID to backend:', error);
-        }
+    const handleEmailSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+        await signInWithEmail(email, password);
+        navigate('/tweets');
+    } catch (error) {
+        console.error('Error signing in with email:', error);
+    }
     };
 
     return (
-        <div className="auth-container">
-            <div id="firebaseui-auth-container"></div>
+    <div className="signin-container">
+        <div className="signin-card">
+        <h2>Sign In</h2>
+        <GoogleLoginButton onClick={handleGoogleSignIn} />
+        <form onSubmit={handleEmailSignIn}>
+            <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            />
+            <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            />
+            <button type="submit">Sign In</button>
+        </form>
         </div>
-    );
+    </div>
+);
 };
+
 
