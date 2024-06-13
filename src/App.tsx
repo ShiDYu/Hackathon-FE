@@ -10,6 +10,9 @@ import { firebaseConfig } from './firebase';
 import { SignUp } from './SignUp';
 import { Home } from './Home';
 import { SignIn } from './SignIn';
+import { MantineProvider } from '@mantine/core';
+import { Sidebar } from './Sidebar';
+
 
 
 function App() {
@@ -33,18 +36,21 @@ function App() {
         </a>
       </header>
       */}
-      <Router>
-            <Routes>
-                {/* path="/profile"に一致するURLがアクセスされたときにProfileコンポーネントをレンダリングする */}
-                <Route path="/signin" element={<SignIn />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/profile" element={<Profile/>} />
-                <Route path="/tweets" element={<TweetList/>} />
-                <Route path="/create-tweet" element={<CreateTweet />} />
-                {/* その他のすべてのURLパスに対してAuthコンポーネントをレンダリングする */}
-                <Route path="/" element={<Home/>} />
-            </Routes>
+      <MantineProvider>
+        <Router>
+              <Routes>
+                  {/* path="/profile"に一致するURLがアクセスされたときにProfileコンポーネントをレンダリングする */}
+                  <Route path="/signin" element={<SignIn />} />
+                  <Route path="/signup" element={<SignUp />} />
+                  <Route path="/profile" element={<Profile/>} />
+                  <Route path="/tweets" element={<TweetList/>} />
+                  <Route path="/create-tweet" element={<CreateTweet />} />
+                  <Route path="/side" element={<Sidebar/>} />
+                  {/* その他のすべてのURLパスに対してAuthコンポーネントをレンダリングする */}
+                  <Route path="/" element={<Home/>} />
+              </Routes>
         </Router>
+      </MantineProvider>
     </div>
   );
 }
