@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Group, Paper, Text, Title } from "@mantine/core";
+import { Sidebar } from "./Sidebar";
+import { LikeButton } from "./LikesButton";
+import { fireAuth } from "./firebase";
+import {ReplyComponent} from "./replyform";
 
 
 interface Tweet {
@@ -14,7 +18,8 @@ interface Tweet {
 export const TweetList: React.FC = () => {
     const [tweets, setTweets] = useState([]);
     const navigate = useNavigate();
-
+    const user = fireAuth.currentUser;
+    const userId = user?.uid;
     useEffect(() => {
         // ツイートのリストをサーバーから取得
         const fetchTweets = async () => {
@@ -33,21 +38,26 @@ export const TweetList: React.FC = () => {
     };
 
     return (
-        <Container size="md" my="md" style={{ maxWidth: '50%', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <Title order={2} mb="md">ツイート一覧</Title>
-      <Button onClick={handleCreateTweet} mb="md">ツイートを作成</Button>
-      {sortedTweets.map((tweet:any) => (
-        <Paper key={tweet.id} shadow="sm" p="md" withBorder style={{ border: '1px solid #ddd', width: '100%' }} mb="md">
-          <Group align="flex-start">
-            <div>
-              <Text style={{fontWeight: 500}}>{tweet.nickname}</Text>
-              <Text size="xs" color="dimmed">{new Date(tweet.date).toLocaleString()}</Text>
-              <Text>{tweet.content}</Text>
-            </div>
-          </Group>
-        </Paper>
-      ))}
-    </Container>
+      <div style={{ display: 'flex' }}>
+      <Sidebar />
+      <Container size="md" my="md" style={{ marginLeft: '260px', flex: 1 }}>
+        <Title order={2} mb="md">ツイート一覧</Title>
+        <Button onClick={handleCreateTweet} mb="md">ツイートを作成</Button>
+        {sortedTweets.map((tweet: any) => (
+          <Paper key={tweet.id} shadow="sm" p="md" withBorder style={{ border: '1px solid #ddd', width: '100%', marginBottom: '16px' }}>
+            <Group align="flex-start">
+              <div>
+                <Text style={{ fontWeight: 500 }}>{tweet.nickname}</Text>
+                <Text size="xs" color="dimmed">{new Date(tweet.date).toLocaleString()}</Text>
+                <Text>{tweet.content}</Text>
+                <LikeButton postId={tweet.id} userId={userId || ""}/>
+                <ReplyComponent tweetId={tweet.id}/>
+              </div>
+            </Group>
+          </Paper>
+        ))}
+      </Container>
+    </div>
     );
 };
 

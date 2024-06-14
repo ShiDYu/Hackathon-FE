@@ -45,7 +45,6 @@ function App() {
                   <Route path="/profile" element={<Profile/>} />
                   <Route path="/tweets" element={<TweetList/>} />
                   <Route path="/create-tweet" element={<CreateTweet />} />
-                  <Route path="/side" element={<Sidebar/>} />
                   {/* その他のすべてのURLパスに対してAuthコンポーネントをレンダリングする */}
                   <Route path="/" element={<Home/>} />
               </Routes>
