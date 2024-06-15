@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Group, Paper, Text, Title } from "@mantine/core";
-import { Sidebar } from "./Sidebar";
-import { LikeButton } from "./LikesButton";
-import { fireAuth } from "./firebase";
-import {ReplyComponent} from "./replyform";
+import { Sidebar } from "../Sidebar";
+import { LikeButton } from "../Like/LikesButton";
+import { fireAuth } from "../firebase";
+import {ReplyComponent} from "../reply/replyform";
 import { Link } from 'react-router-dom';
+import {ReplyCount} from "../reply/replyCount";
 
 
 interface Tweet {
-    id: string;
+    id: number;
     uid: string;
     content: string;
     date: string; // dateはISO文字列として保存されていると仮定します
@@ -56,6 +57,7 @@ export const TweetList: React.FC = () => {
                 <Text>{tweet.content}</Text>
                 <LikeButton postId={tweet.id} userId={userId || ""}/>
                 <ReplyComponent tweetId={tweet.id}/>
+                <span><ReplyCount tweetId={tweet.id} /></span>
                 <Link to={`/tweet/${tweet.id}`}>View Replies</Link>
               </div>
             </Group>

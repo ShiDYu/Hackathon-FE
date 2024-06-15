@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLoginButton } from 'react-social-login-buttons';
-import { signInWithGoogle, signUpWithEmail } from './firebase';
+import { signInWithGoogle, signUpWithEmail } from '../firebase';
 import './SignUp.css'; // カスタムCSSをインポート
 
 export const SignUp: React.FC = () => {

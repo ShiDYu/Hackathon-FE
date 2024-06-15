@@ -1,8 +1,9 @@
 // ReplyForm.js
 import React, { useState } from 'react';
-import { fireAuth } from './firebase';
+import { fireAuth } from '../firebase';
 import ReplyIcon from '@mui/icons-material/Reply';
 import { IconButton, TextField, Button, Box } from '@mui/material';
+import {ReplyCount} from "./replyCount";
 
 interface ParentTweetProps {
   tweetId: string;
@@ -26,9 +27,9 @@ export const ReplyComponent: React.FC<ParentTweetProps> = ({ tweetId }) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        tweet_id: tweetId,
         uid: user?.uid,
-        content,
-        parent_tweet_id: tweetId,
+        content: content,
       }),
     });
 

@@ -3,9 +3,10 @@ import IconButton from '@mui/material/IconButton';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useState, useEffect } from 'react';
+import internal from "stream";
 
 interface LikeButtonProps {
-    postId: string;
+    postId: number;
     userId: string;
   }
 
@@ -14,11 +15,10 @@ export const LikeButton:React.FC<LikeButtonProps>= ({ postId , userId }) => {
     const [likeCount, setLikeCount] = useState(0);
   
     useEffect(() => {
-      if (!userId) return;  // userId が存在しない場合は何もしない
-  
+      console.log('postId:', postId, 'userId:', userId);
       const fetchLikes = async () => {
         try {
-          const response = await fetch(`http://localhost:8000/posts/${postId}/likes?userId=${userId}`);
+          const response = await fetch(`http://localhost:8000/posts/likes?userId=${userId}&postId=${postId}`);
           const data = await response.json();
           setLiked(data.likedByUser);
           setLikeCount(data.likeCount);
@@ -29,15 +29,21 @@ export const LikeButton:React.FC<LikeButtonProps>= ({ postId , userId }) => {
   
       fetchLikes();
     }, [postId, userId]);
+    // いいねしたユーザーのIDといいね数の取得　多分uidとれてきてない
   
     const toggleLike = () => {
-      const url = liked ? `http://localhost:8000/posts/${postId}/unlike` : `http://localhost:8000/posts/${postId}/like`;
+      console.log('userId:', userId, 'postId:', postId, 'liked:', liked);　// いいねの状態を確認
+      console.log(`$typeof userId: ${typeof userId}, typeof postId: ${typeof postId}`);
+      const url = liked ? `http://localhost:8000/posts/unlike` : `http://localhost:8000/posts/like`;
       fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId })
+        
+        body: JSON.stringify({ postId:Number(postId), userId:userId })
+        // postIdがここでstringになっている
+
       })
       .then(response => response.json())
       .then(data => {
@@ -46,14 +52,12 @@ export const LikeButton:React.FC<LikeButtonProps>= ({ postId , userId }) => {
       })
       .catch(error => console.error('Error toggling like:', error));
     };
-  
     return (
       <div>
         <IconButton onClick={toggleLike} color={liked ? 'error' : 'default'}>
           {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </IconButton>
         <span>{likeCount}</span>
-        {/* なぜかまたCORSがうまくいかない */}
       </div>
     );
   };

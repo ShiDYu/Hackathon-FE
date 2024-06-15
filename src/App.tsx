@@ -2,17 +2,17 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Profile } from './updateProfile';
-import { TweetList } from './TweetList';
-import { CreateTweet } from './createTweets';
+import { Profile } from './login/updateProfile';
+import { TweetList } from './Tweet/TweetList';
+import { CreateTweet } from './Tweet/createTweets';
 import { useEffect } from 'react';
 import { firebaseConfig } from './firebase';
-import { SignUp } from './SignUp';
+import { SignUp } from './login/SignUp';
 import { Home } from './Home';
-import { SignIn } from './SignIn';
+import { SignIn } from './login/SignIn';
 import { MantineProvider } from '@mantine/core';
 import { Sidebar } from './Sidebar';
-import { TweetPage } from './TweetPage';
+import { TweetPage } from './Tweet/TweetPage';
 
 
 function App() {

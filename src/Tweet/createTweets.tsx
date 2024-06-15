@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { fireAuth } from "./firebase";
+import { fireAuth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 
 export const CreateTweet: React.FC = () => {
