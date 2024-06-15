@@ -22,7 +22,7 @@ export const TweetPage: React.FC = () => {
 
   useEffect(() => {
     const fetchTweet = async () => {
-      const response = await fetch(`http://localhost:8000/tweets/${id}`);
+      const response = await fetch(`http://localhost:8000/repliedTweet?tweet_id=${id}`);
       if (response.ok) {
         const data: Tweet = await response.json();
         setTweet(data);
@@ -32,7 +32,7 @@ export const TweetPage: React.FC = () => {
     };
 
     const fetchReplies = async () => {
-      const response = await fetch(`http://localhost:8000/tweets/${id}/replies`);
+      const response = await fetch(`http://localhost:8000/replies?tweet_id=${id}`);
       if (response.ok) {
         const data: Tweet[] = await response.json();
         setReplies(data);

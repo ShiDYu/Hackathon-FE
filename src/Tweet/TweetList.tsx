@@ -7,6 +7,7 @@ import { fireAuth } from "../firebase";
 import {ReplyComponent} from "../reply/replyform";
 import { Link } from 'react-router-dom';
 import {ReplyCount} from "../reply/replyCount";
+import {LogoutButton} from "../login/SignOut";
 
 
 interface Tweet {
@@ -48,6 +49,7 @@ export const TweetList: React.FC = () => {
       <Container size="md" my="md" style={{ marginLeft: '260px', flex: 1 }}>
         <Title order={2} mb="md">ツイート一覧</Title>
         <Button onClick={handleCreateTweet} mb="md">ツイートを作成</Button>
+        <LogoutButton/>
         {sortedTweets.map((tweet: any) => (
           <Paper key={tweet.id} shadow="sm" p="md" withBorder style={{ border: '1px solid #ddd', width: '100%', marginBottom: '16px' }}>
             <Group align="flex-start">

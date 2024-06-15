@@ -57,7 +57,7 @@ export const SignUp: React.FC = () => {
             <div className="signup-card">
                 <h2>Sign Up</h2>
                 <GoogleLoginButton onClick={handleGoogleSignUp} />
-                {/*サインアップの時はsignup with googlenにするためのカスタマイズボタンを作る*/}
+                {/*サインアップの時はsignup with googleにするためのカスタマイズボタンを作る*/}
                 <form onSubmit={handleEmailSignUp}>
                     <input
                         type="email"
@@ -80,3 +80,4 @@ export const SignUp: React.FC = () => {
     );
 };
 
+//メールアドレスでサインアップするときパスワードが６文字以上でないとエラーが出るのでバリデーションをする
