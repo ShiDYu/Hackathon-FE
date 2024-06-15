@@ -8,7 +8,6 @@ import { CreateTweet } from './Tweet/createTweets';
 import { useEffect } from 'react';
 import { firebaseConfig } from './firebase';
 import { SignUp } from './login/SignUp';
-import { Home } from './Home';
 import { SignIn } from './login/SignIn';
 import { MantineProvider } from '@mantine/core';
 import { Sidebar } from './Sidebar';
@@ -40,14 +39,13 @@ function App() {
         <Router>
               <Routes>
                   {/* path="/profile"に一致するURLがアクセスされたときにProfileコンポーネントをレンダリングする */}
-                  <Route path="/signin" element={<SignIn />} />
                   <Route path="/signup" element={<SignUp />} />
                   <Route path="/profile" element={<Profile/>} />
                   <Route path="/tweets" element={<TweetList/>} />
                   <Route path="/create-tweet" element={<CreateTweet />} />
                   <Route path="/tweet/:id" element={<TweetPage />} />
                   {/* その他のすべてのURLパスに対してAuthコンポーネントをレンダリングする */}
-                  <Route path="/" element={<Home/>} />
+                  <Route path="/" element={<SignIn />} />
               </Routes>
         </Router>
       </MantineProvider>

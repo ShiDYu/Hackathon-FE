@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { GoogleLoginButton } from 'react-social-login-buttons';
 import { signInWithGoogle, signUpWithEmail } from '../firebase';
 import './SignUp.css'; // カスタムCSSをインポート
+import { Link } from 'react-router-dom';
 
 export const SignUp: React.FC = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleGoogleSignUp = async () => {
         try {
@@ -17,18 +19,24 @@ export const SignUp: React.FC = () => {
             navigate('/profile');
         } catch (error) {
             console.error('Error signing up with Google:', error);
+            setErrorMessage('Googleでのサインアップに失敗しました');
         }
     };
 
     const handleEmailSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (password.length < 6) {
+            setErrorMessage('パスワードは6文字以上である必要があります');
+            return;
+        }
         try {
             const result = await signUpWithEmail(email, password);
             const uid = result.user.uid;
             await sendUidToBackend({ id: uid });
             navigate('/profile');
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error signing up with email:', error);
+            setErrorMessage('メールでのサインアップに失敗しました');
         }
     };
 
@@ -55,9 +63,10 @@ export const SignUp: React.FC = () => {
     return (
         <div className="signup-container">
             <div className="signup-card">
-                <h2>Sign Up</h2>
+                <h2>新規登録</h2>
+                {errorMessage && <div className="error-message">{errorMessage}</div>}
                 <GoogleLoginButton onClick={handleGoogleSignUp} />
-                {/*サインアップの時はsignup with googleにするためのカスタマイズボタンを作る*/}
+                <div className="separator"></div>
                 <form onSubmit={handleEmailSignUp}>
                     <input
                         type="email"
@@ -73,11 +82,17 @@ export const SignUp: React.FC = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
-                    <button type="submit">Sign Up</button>
+                    <button type="submit">登録</button>
+                    <Link to={`/`}>ログインはこちら</Link>
                 </form>
             </div>
         </div>
     );
 };
 
-//メールアドレスでサインアップするときパスワードが６文字以上でないとエラーが出るのでバリデーションをする
+export default SignUp;
+
+
+//メールアドレスでサインアップするときパスワードが６文字以上でないとエラーが出るのでバリデーションをする　done
+//メールアドレスを本当に所持しているかverifyする
+//様々なエラーのハンドリング
