@@ -5,6 +5,7 @@ import { Sidebar } from "./Sidebar";
 import { LikeButton } from "./LikesButton";
 import { fireAuth } from "./firebase";
 import {ReplyComponent} from "./replyform";
+import { Link } from 'react-router-dom';
 
 
 interface Tweet {
@@ -36,6 +37,9 @@ export const TweetList: React.FC = () => {
     const handleCreateTweet = () => {
         navigate('/create-tweet');
     };
+    const handleReplyClick = (id: number) => {
+      navigate(`/tweet/${id}`);
+    };
 
     return (
       <div style={{ display: 'flex' }}>
@@ -52,6 +56,7 @@ export const TweetList: React.FC = () => {
                 <Text>{tweet.content}</Text>
                 <LikeButton postId={tweet.id} userId={userId || ""}/>
                 <ReplyComponent tweetId={tweet.id}/>
+                <Link to={`/tweet/${tweet.id}`}>View Replies</Link>
               </div>
             </Group>
           </Paper>

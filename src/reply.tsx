@@ -9,7 +9,7 @@ const Replies : React.FC <parentTweet>= ({ tweetId }) => {
 
   useEffect(() => {
     const fetchReplies = async () => {
-      const response = await fetch(`/api/tweets/${tweetId}/replies`);
+      const response = await fetch(`http://localhost:8000/tweets/${tweetId}/replies`);
       if (response.ok) {
         const data = await response.json();
         setReplies(data);

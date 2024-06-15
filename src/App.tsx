@@ -12,7 +12,7 @@ import { Home } from './Home';
 import { SignIn } from './SignIn';
 import { MantineProvider } from '@mantine/core';
 import { Sidebar } from './Sidebar';
-
+import { TweetPage } from './TweetPage';
 
 
 function App() {
@@ -45,6 +45,7 @@ function App() {
                   <Route path="/profile" element={<Profile/>} />
                   <Route path="/tweets" element={<TweetList/>} />
                   <Route path="/create-tweet" element={<CreateTweet />} />
+                  <Route path="/tweet/:id" element={<TweetPage />} />
                   {/* その他のすべてのURLパスに対してAuthコンポーネントをレンダリングする */}
                   <Route path="/" element={<Home/>} />
               </Routes>

@@ -20,7 +20,7 @@ export const ReplyComponent: React.FC<ParentTweetProps> = ({ tweetId }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const response = await fetch('/api/reply', {
+    const response = await fetch('http://localhost:8000/reply', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
