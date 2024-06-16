@@ -1,0 +1,45 @@
+.Sidebar {
+    height: 100vh;
+    width: 250px;
+    background-color:#1DA1F2; /* 緑色の背景 */
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding-top: 20px;
+    position: fixed; /* 固定位置に設定 */
+}
+
+.SidebarList {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    margin: 0;
+}
+
+.row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    box-sizing: border-box; /* これにより、paddingを含む幅が設定される */
+    margin-bottom: 10px;
+    
+}
+
+.row:hover {
+    background-color: #23e2f0; /* ホバー時の色 */
+}
+
+#icon {
+    font-size: 24px;
+    margin-right: 20px;
+}
+
+#title {
+    font-size: 18px;
+    font-weight: normal;
+    color: #fff;
+}
+

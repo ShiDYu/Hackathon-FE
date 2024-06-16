@@ -1,0 +1,15 @@
+.floatingButton {
+    position: fixed;
+    bottom: 60px;
+    right: 100px;
+    z-index: 1000;
+    width: 56px; /* ボタンの幅 */
+    height: 56px; /* ボタンの高さ */
+    border-radius: 50%; /* ボタンを丸くする */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    background-color: #1DA1F2;
+}

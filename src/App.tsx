@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Profile } from './login/updateProfile';
+import { Profile } from './User/updateProfile';
 import { TweetList } from './Tweet/TweetList';
 import { CreateTweet } from './Tweet/createTweets';
 import { useEffect } from 'react';
@@ -10,8 +10,9 @@ import { firebaseConfig } from './firebase';
 import { SignUp } from './login/SignUp';
 import { SignIn } from './login/SignIn';
 import { MantineProvider } from '@mantine/core';
-import { Sidebar } from './Sidebar';
+import { Sidebar } from './sidebar/Sidebar';
 import { TweetPage } from './Tweet/TweetPage';
+import { Logoutpage } from './login/SignOut';
 
 
 function App() {
@@ -35,7 +36,6 @@ function App() {
         </a>
       </header>
       */}
-      <MantineProvider>
         <Router>
               <Routes>
                   {/* path="/profile"に一致するURLがアクセスされたときにProfileコンポーネントをレンダリングする */}
@@ -44,11 +44,11 @@ function App() {
                   <Route path="/tweets" element={<TweetList/>} />
                   <Route path="/create-tweet" element={<CreateTweet />} />
                   <Route path="/tweet/:id" element={<TweetPage />} />
+                  <Route path="/logout" element={<Logoutpage/>}/>
                   {/* その他のすべてのURLパスに対してAuthコンポーネントをレンダリングする */}
                   <Route path="/" element={<SignIn />} />
               </Routes>
         </Router>
-      </MantineProvider>
     </div>
   );
 }

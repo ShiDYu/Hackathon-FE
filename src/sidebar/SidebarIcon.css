@@ -1,0 +1,14 @@
+.SidebarIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.SidebarIcon img {
+    width: 70x; /* 画像の幅を50pxに設定 */
+    height: 70px; /* 画像の高さを50pxに設定 */
+    object-fit: contain; /* アスペクト比を保つ */
+    margin-left: 55px; 
+    margin-bottom: 50px;
+}

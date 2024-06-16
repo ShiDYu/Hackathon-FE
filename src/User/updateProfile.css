@@ -1,0 +1,68 @@
+.profile-container {
+    background-color: #000;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-top: 80px;
+}
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-header h2 {
+    margin: 0;
+}
+
+.profile-header button {
+    background-color: #1DA1F2;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.profile-header button:hover {
+    background-color: #0d8cdc;
+}
+
+.profile-input-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.profile-input-container label {
+    margin-bottom: 20px;
+}
+
+.profile-input-container input,
+.profile-input-container textarea {
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.profile-input-container input::placeholder,
+.profile-input-container textarea::placeholder {
+    color: #ccc;
+}
+
+.profile-input-container textarea {
+    height: 100px;
+    resize: none;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+} 

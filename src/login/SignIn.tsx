@@ -5,7 +5,6 @@ import { signInWithGoogle, signInWithEmail } from '../firebase';
 import './SignIn.css';
 import { Link } from 'react-router-dom';
 
-// サインイン画面に登録が済んでいないユーザーはこちらみたいなボタンを作りたい
 
 export const SignIn: React.FC = () => {
     const navigate = useNavigate();
@@ -71,5 +70,7 @@ export const SignIn: React.FC = () => {
     </div>
 );
 };
+
+// ローディングスピナーを追加する
 
 

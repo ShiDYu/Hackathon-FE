@@ -1,0 +1,56 @@
+.tweet-container {
+    margin-left: 260px;
+    flex: 1;
+}
+
+.tweet-paper {
+    border: 1px solid #ddd;
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 16px;
+}
+
+.tweet-content {
+    width: 100%;
+}
+
+.tweet-nickname {
+    font-weight: 500;
+}
+
+.tweet-text {
+    margin-top: 8px;
+}
+
+.tweet-actions {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.tweet-actions > * {
+    margin-right: 16px;
+}
+
+.tweet-actions a {
+    color: #1DA1F2;
+    text-decoration: none;
+}
+
+.tweet-actions a:hover {
+    text-decoration: underline;
+}
+
+/* .fixedButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    width: 56px; ボタンの幅 
+    height: 56px; ボタンの高さ 
+    border-radius: 50%;  ボタンを丸くする 
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
