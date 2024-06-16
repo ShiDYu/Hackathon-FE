@@ -41,16 +41,11 @@
     text-decoration: underline;
 }
 
-/* .fixedButton {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
-    width: 56px; ボタンの幅 
-    height: 56px; ボタンの高さ 
-    border-radius: 50%;  ボタンを丸くする 
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+
+.reply-section {
     display: flex;
-    justify-content: center;
     align-items: center;
-} */
+    margin-left: 16px;
+}
+
+

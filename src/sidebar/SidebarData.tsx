@@ -10,7 +10,7 @@ export const SidebarData = [
     {
         title: "ホーム",
         icon: <HomeIcon />,
-        link: "/"
+        link: "/tweets"
     },
     {
         title: "プロフィール",

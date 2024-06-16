@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Container, Typography, Paper, Box } from "@mui/material";
+import { Container, Typography, Paper, Box, Button } from "@mui/material";
 import { Sidebar } from "../sidebar/Sidebar";
 import { LikeButton } from "../Like/LikesButton";
 import { fireAuth } from "../firebase";
 import { ReplyComponent } from "../reply/replyform";
-import { Link } from 'react-router-dom';
 import { ReplyCount } from "../reply/replyCount";
+import FloatingActionButton from './FloatingActionButton';
+import Replies from "../reply/reply";
 import './TweetList.css'; // CSSをインポート
-import {FloatingActionButton} from '../Tweet/FloatingActionButton';
 
 interface Tweet {
     id: number;
@@ -20,12 +20,24 @@ interface Tweet {
 
 export const TweetList: React.FC = () => {
     const [tweets, setTweets] = useState<Tweet[]>([]);
+    const [openReplies, setOpenReplies] = useState<{ [key: string]: boolean }>({});
+    const [replyCounts, setReplyCounts] = useState<{ [key: number]: number }>({});
     const navigate = useNavigate();
-    const user = fireAuth.currentUser;
-    const userId = user?.uid;
+    const [userId, setUserId] = useState<string | null>(null);
 
     useEffect(() => {
-        // ツイートのリストをサーバーから取得
+        const unsubscribe = fireAuth.onAuthStateChanged(user => {
+            if (user) {
+                setUserId(user.uid);
+            } else {
+                setUserId(null);
+            }
+        });
+
+        return () => unsubscribe();
+    }, []);
+
+    useEffect(() => {
         const fetchTweets = async () => {
             const response = await fetch('http://localhost:8000/tweets');
             const data = await response.json();
@@ -39,6 +51,20 @@ export const TweetList: React.FC = () => {
 
     const handleCreateTweet = () => {
         navigate('/create-tweet');
+    };
+
+    const toggleReplies = (tweetId: number) => {
+        setOpenReplies((prev) => ({
+            ...prev,
+            [tweetId]: !prev[tweetId]
+        }));
+    };
+
+    const handleReplyCount = (tweetId: number, count: number) => {
+        setReplyCounts(prev => ({
+            ...prev,
+            [tweetId]: count
+        }));
     };
 
     return (
@@ -62,17 +88,31 @@ export const TweetList: React.FC = () => {
                             </Typography>
                             <Box display="flex" alignItems="center" sx={{ mt: 1 }}>
                                 <LikeButton postId={tweet.id} userId={userId || ""} />
-                                <ReplyCount tweetId={tweet.id} />
-                                <Link to={`/tweet/${tweet.id}`} style={{ marginLeft: '16px', color: '#1DA1F2', textDecoration: 'none' }}>
-                                    返信を見る
-                                </Link>
+                                <Box display="flex" alignItems="center" sx={{ ml: 2 }}>
+                                    <ReplyComponent tweetId={tweet.id} />
+                                    <ReplyCount tweetId={tweet.id} onReplyCount={(count) => handleReplyCount(tweet.id, count)} />
+                                </Box>
+                                {replyCounts[tweet.id] > 0 && (
+                                    <Button
+                                        onClick={() => toggleReplies(tweet.id)}
+                                        sx={{ marginLeft: '16px' }}
+                                        variant="contained"
+                                        color="primary"
+                                    >
+                                        {openReplies[tweet.id] ? '返信を閉じる' : '返信を見る'}
+                                    </Button>
+                                )}
                             </Box>
-                            <ReplyComponent tweetId={tweet.id} />
+                            {openReplies[tweet.id] && (
+                                <Box mt={2}>
+                                    <Replies tweetId={tweet.id.toString()} />
+                                </Box>
+                            )}
                         </Paper>
                     ))}
                 </Box>
             </Container>
-            <FloatingActionButton onClick={handleCreateTweet} />å
+            <FloatingActionButton onClick={handleCreateTweet} />
         </Box>
     );
 };
@@ -82,4 +122,7 @@ export default TweetList;
 
 
 
+
+
 // 追加する機能: ツイートが時系列順に表示される機能、ツイートにユーザー名などが表示されるようにする、ツイートの投稿機能、ツイートの削除機能、ツイートの編集機能、
+// Headerにログインしているユーザーの名前やアイコンを表示する

@@ -22,6 +22,7 @@ export const LikeButton:React.FC<LikeButtonProps>= ({ postId , userId }) => {
           const data = await response.json();
           setLiked(data.likedByUser);
           setLikeCount(data.likeCount);
+          console.log('data:', data);//この時点で適切にデータを取得できていない
         } catch (error) {
           console.error('Error fetching likes:', error);
         }
@@ -30,6 +31,7 @@ export const LikeButton:React.FC<LikeButtonProps>= ({ postId , userId }) => {
       fetchLikes();
     }, [postId, userId]);
     // いいねしたユーザーのIDといいね数の取得　多分uidとれてきてない
+
   
     const toggleLike = () => {
       console.log('userId:', userId, 'postId:', postId, 'liked:', liked);　// いいねの状態を確認
@@ -62,3 +64,7 @@ export const LikeButton:React.FC<LikeButtonProps>= ({ postId , userId }) => {
     );
   };
   
+// 修正するエラー
+// １、ツイート一覧ページを開いた時に、いいねの数が表示されない
+// 2、いいねボタンを押したのにリロードするといいねが解除されている　データベースには保存されているので次に押すとエラーが発生する
+// done エラー解消済み
