@@ -96,10 +96,8 @@ export const TweetList: React.FC = () => {
                                     <Button
                                         onClick={() => toggleReplies(tweet.id)}
                                         sx={{ marginLeft: '16px' }}
-                                        variant="contained"
-                                        color="primary"
                                     >
-                                        {openReplies[tweet.id] ? '返信を閉じる' : '返信を見る'}
+                                        {openReplies[tweet.id] ? 'Hide Replies' : 'View Replies'}
                                     </Button>
                                 )}
                             </Box>

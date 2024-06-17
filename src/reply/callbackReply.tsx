@@ -1,30 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { Paper, Typography, Box, Divider, IconButton, Button } from '@mui/material';
-import LikeButtonForreply from '../Like/LikesButtonForreply';
+import { Box, Typography, Divider, IconButton, Button } from '@mui/material';
 import { fireAuth } from '../firebase';
-import RepliesToReply from './callbackReply';
+import LikeButtonForreply from '../Like/LikesButtonForreply';
 import ReplyForm from './replyformForReply';
+import ReplyReplyCount from './replyCountForreply';
 import ReplyIcon from '@mui/icons-material/Reply';
-import ReplyReplyCount from './replyCountForreply'; // インポート
 
 interface Reply {
     id: number;
+    tweet_id: number | null;
+    reply_id: number | null;
     uid: string;
     content: string;
-    date: string; // dateはISO文字列として保存されていると仮定します
+    date: string; // ISO文字列として保存されていると仮定します
     nickname: string;
+    like_count: number;
 }
 
-interface ParentTweetProps {
-    tweetId: string;
+interface RepliesProps {
+    replyId: number; // 親リプライID
 }
 
-export const Replies: React.FC<ParentTweetProps> = ({ tweetId }) => {
+export const RepliesToReply: React.FC<RepliesProps> = ({ replyId }) => {
     const [replies, setReplies] = useState<Reply[]>([]);
-    const [userId, setUserId] = useState<string | null>(null);
     const [openReplies, setOpenReplies] = useState<{ [key: number]: boolean }>({});
-    const [replyReplyCounts, setReplyReplyCounts] = useState<{ [key: number]: number }>({});
+    const [userId, setUserId] = useState<string | null>(null);
     const [openReplyFormId, setOpenReplyFormId] = useState<number | null>(null);
+    const [replyReplyCounts, setReplyReplyCounts] = useState<{ [key: number]: number }>({});
 
     useEffect(() => {
         const unsubscribe = fireAuth.onAuthStateChanged(user => {
@@ -41,7 +43,7 @@ export const Replies: React.FC<ParentTweetProps> = ({ tweetId }) => {
     useEffect(() => {
         const fetchReplies = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/replies?tweet_id=${tweetId}`);
+                const response = await fetch(`http://localhost:8000/replies/replies?reply_id=${replyId}`);
                 if (response.ok) {
                     const data = await response.json();
                     setReplies(data || []); // nullの場合をハンドリング
@@ -54,7 +56,7 @@ export const Replies: React.FC<ParentTweetProps> = ({ tweetId }) => {
         };
 
         fetchReplies();
-    }, [tweetId]);
+    }, [replyId]);
 
     useEffect(() => {
         const fetchReplyReplyCounts = async () => {
@@ -90,9 +92,9 @@ export const Replies: React.FC<ParentTweetProps> = ({ tweetId }) => {
     };
 
     return (
-        <div>
+        <Box>
             {replies.map((reply: Reply) => (
-                <div key={reply.id}>
+                <Box key={reply.id} sx={{ pl: 4, mb: 2 }}>
                     <Divider />
                     <Box sx={{ p: 2 }}>
                         <Typography variant="h6" component="div">
@@ -106,12 +108,12 @@ export const Replies: React.FC<ParentTweetProps> = ({ tweetId }) => {
                         </Typography>
                         <Box display="flex" alignItems="center" sx={{ mt: 1 }}>
                             <LikeButtonForreply replyId={reply.id} userId={userId || ""} />
-                            <IconButton onClick={() => handleReplyClick(reply.id)} sx={{ ml: 1 }}>
+                            <IconButton onClick={() => handleReplyClick(reply.id)}>
                                 <ReplyIcon />
                             </IconButton>
                             <ReplyReplyCount replyId={reply.id} />
                             {replyReplyCounts[reply.id] > 0 && (
-                                <Button onClick={() => toggleReplies(reply.id)} sx={{ ml: 1 }}>
+                                <Button onClick={() => toggleReplies(reply.id)} sx={{ marginLeft: '16px' }}>
                                     {openReplies[reply.id] ? 'Hide Replies' : 'View Replies'}
                                 </Button>
                             )}
@@ -123,16 +125,15 @@ export const Replies: React.FC<ParentTweetProps> = ({ tweetId }) => {
                         )}
                     </Box>
                     <Divider />
-                </div>
+                </Box>
             ))}
             {openReplyFormId !== null && (
                 <ReplyForm replyId={openReplyFormId} open={openReplyFormId !== null} onClose={handleReplyFormClose} />
             )}
-        </div>
+        </Box>
     );
 };
 
-export default Replies;
-
+export default RepliesToReply;
 
 
