@@ -16,20 +16,29 @@ export const LikeButton:React.FC<LikeButtonProps>= ({ postId , userId }) => {
   
     useEffect(() => {
       console.log('postId:', postId, 'userId:', userId);
+
       const fetchLikes = async () => {
-        try {
-          const response = await fetch(`http://localhost:8000/posts/likes?userId=${userId}&postId=${postId}`);
-          const data = await response.json();
-          setLiked(data.likedByUser);
-          setLikeCount(data.likeCount);
-          console.log('data:', data);//この時点で適切にデータを取得できていない
-        } catch (error) {
-          console.error('Error fetching likes:', error);
-        }
+          if (!userId) {
+              console.warn('userId is empty. Skipping fetchLikes.');
+              return;
+          }
+
+          try {
+              const response = await fetch(`http://localhost:8000/posts/likes?userId=${userId}&postId=${postId}`);
+              if (!response.ok) {
+                  throw new Error('Network response was not ok');
+              }
+              const data = await response.json();
+              setLiked(data.likedByUser);
+              setLikeCount(data.likeCount);
+              console.log('data:', data);
+          } catch (error) {
+              console.error('Error fetching likes:', error);
+          }
       };
-  
+
       fetchLikes();
-    }, [postId, userId]);
+  }, [postId, userId]);
     // いいねしたユーザーのIDといいね数の取得　多分uidとれてきてない
 
   

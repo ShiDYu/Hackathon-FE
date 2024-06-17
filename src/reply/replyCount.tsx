@@ -23,7 +23,7 @@ export const ReplyCount: React.FC<ReplyCountProps> = ({ tweetId, onReplyCount })
         };
 
         fetchReplyCount();
-    }, [tweetId, onReplyCount]);
+    }, [tweetId]);
 
     return (
         <span>{count}</span>

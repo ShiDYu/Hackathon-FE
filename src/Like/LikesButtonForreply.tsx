@@ -14,6 +14,10 @@ export const LikeButtonForreply: React.FC<LikeButtonProps> = ({ replyId, userId 
 
     useEffect(() => {
         const fetchLikes = async () => {
+            console.log('replyId:', replyId, 'userId:', userId);
+            console.log(`$typeof userId: ${typeof userId}, typeof replyId: ${typeof replyId}`);
+            replyId = Number(replyId);
+            console.log(`$typeof userId: ${typeof userId}, typeof replyId: ${typeof replyId}`);
             try {
                 const response = await fetch(`http://localhost:8000/replies/likes?userId=${userId}&replyId=${replyId}`);
                 const data = await response.json();
@@ -28,13 +32,15 @@ export const LikeButtonForreply: React.FC<LikeButtonProps> = ({ replyId, userId 
     }, [replyId, userId]);
 
     const toggleLike = () => {
+        console.log('userId:', userId, 'replyId:', replyId, 'liked:', liked);
+        console.log(`$typeof userId: ${typeof userId}, typeof replyId: ${typeof replyId}`);
         const url = liked ? `http://localhost:8000/replies/unlike` : `http://localhost:8000/replies/like`;
         fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ replyId: Number(replyId), userId })
+            body: JSON.stringify({ replyId: Number(replyId), uid:userId })
         })
         .then(response => response.json())
         .then(data => {
@@ -55,3 +61,5 @@ export const LikeButtonForreply: React.FC<LikeButtonProps> = ({ replyId, userId 
 };
 
 export default LikeButtonForreply;
+
+//いいねを押すとDBには蓄積される
