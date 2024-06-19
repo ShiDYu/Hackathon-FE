@@ -16,7 +16,7 @@ export const SignUp: React.FC = () => {
             const result = await signInWithGoogle();
             const uid = result.user.uid;
             await sendUidToBackend({ id: uid });
-            navigate('/profile');
+            navigate('/set-first-profile');
         } catch (error) {
             console.error('Error signing up with Google:', error);
             setErrorMessage('Googleでのサインアップに失敗しました');
@@ -33,7 +33,7 @@ export const SignUp: React.FC = () => {
             const result = await signUpWithEmail(email, password);
             const uid = result.user.uid;
             await sendUidToBackend({ id: uid });
-            navigate('/profile');
+            navigate('/set-first-profile');
         } catch (error: any) {
             console.error('Error signing up with email:', error);
             setErrorMessage('メールでのサインアップに失敗しました');

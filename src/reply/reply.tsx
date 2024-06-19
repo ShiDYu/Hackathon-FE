@@ -6,6 +6,7 @@ import RepliesToReply from './callbackReply';
 import ReplyForm from './replyformForReply';
 import ReplyIcon from '@mui/icons-material/Reply';
 import ReplyReplyCount from './replyCountForreply'; // インポート
+import DeleteReplyButton from './DeleteReply'; // リプライ削除ボタンをインポート
 
 interface Reply {
     id: number;
@@ -89,6 +90,10 @@ export const Replies: React.FC<ParentTweetProps> = ({ tweetId }) => {
         setOpenReplyFormId(null);
     };
 
+    const handleDelete = (replyId: number) => {
+        setReplies(replies.filter(reply => reply.id !== replyId));
+    };
+
     return (
         <div>
             {replies.map((reply: Reply) => (
@@ -114,6 +119,9 @@ export const Replies: React.FC<ParentTweetProps> = ({ tweetId }) => {
                                 <Button onClick={() => toggleReplies(reply.id)} sx={{ ml: 1 }}>
                                     {openReplies[reply.id] ? 'Hide Replies' : 'View Replies'}
                                 </Button>
+                            )}
+                            {userId === reply.uid && (
+                                <DeleteReplyButton replyId={reply.id} onDelete={handleDelete} sx={{ ml: 2 }} />
                             )}
                         </Box>
                         {openReplies[reply.id] && (

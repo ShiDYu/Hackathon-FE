@@ -13,6 +13,8 @@ import { MantineProvider } from '@mantine/core';
 import { Sidebar } from './sidebar/Sidebar';
 import { TweetPage } from './Tweet/TweetPage';
 import { Logoutpage } from './login/SignOut';
+import { FirstProfile } from './User/setProfile';
+import { Avatar } from './User/Avatar';
 
 
 function App() {
@@ -39,8 +41,10 @@ function App() {
         <Router>
               <Routes>
                   {/* path="/profile"に一致するURLがアクセスされたときにProfileコンポーネントをレンダリングする */}
+                  <Route path="/avatar" element={<Avatar />} />
                   <Route path="/signup" element={<SignUp />} />
                   <Route path="/profile" element={<Profile/>} />
+                  <Route path="/set-first-profile" element={<FirstProfile/>} />
                   <Route path="/tweets" element={<TweetList/>} />
                   <Route path="/create-tweet" element={<CreateTweet />} />
                   <Route path="/tweet/:id" element={<TweetPage />} />

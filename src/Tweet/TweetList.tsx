@@ -9,6 +9,8 @@ import { ReplyCount } from "../reply/replyCount";
 import FloatingActionButton from './FloatingActionButton';
 import Replies from "../reply/reply";
 import './TweetList.css'; // CSSをインポート
+import ProfileCard from "../User/ProfileCard"; // プロフィールカードをインポート
+import DeleteTweetButton from './DeleteTweet'; // デリートボタンをインポート
 
 interface Tweet {
     id: number;
@@ -67,25 +69,31 @@ export const TweetList: React.FC = () => {
         }));
     };
 
+    const handleDelete = (tweetId: number) => {
+        setTweets(tweets.filter(tweet => tweet.id !== tweetId));
+    };
+
     return (
         <Box display="flex">
             <Sidebar />
             <Container maxWidth="md" sx={{ ml: '260px', flex: 1, my: 2 }}>
-                <Typography variant="h4" component="h2" gutterBottom>
-                    ツイート一覧
-                </Typography>
+                <ProfileCard /> {/* プロフィールカードを追加 */}
                 <Box>
                     {sortedTweets.map((tweet: any) => (
                         <Paper key={tweet.id} variant="outlined" sx={{ p: 2, mb: 2 }}>
-                            <Typography variant="h6" component="div">
-                                {tweet.nickname}
-                            </Typography>
-                            <Typography variant="caption" color="textSecondary">
-                                {new Date(tweet.date).toLocaleString()}
-                            </Typography>
-                            <Typography variant="body1" sx={{ mt: 1 }}>
-                                {tweet.content}
-                            </Typography>
+                            <Box display="flex" justifyContent="space-between" alignItems="center">
+                                <Box>
+                                    <Typography variant="h6" component="div">
+                                        {tweet.nickname}
+                                    </Typography>
+                                    <Typography variant="caption" color="textSecondary">
+                                        {new Date(tweet.date).toLocaleString()}
+                                    </Typography>
+                                    <Typography variant="body1" sx={{ mt: 1 }}>
+                                        {tweet.content}
+                                    </Typography>
+                                </Box>
+                            </Box>
                             <Box display="flex" alignItems="center" sx={{ mt: 1 }}>
                                 <LikeButton postId={tweet.id} userId={userId || ""} />
                                 <Box display="flex" alignItems="center" sx={{ ml: 2 }}>
@@ -99,6 +107,9 @@ export const TweetList: React.FC = () => {
                                     >
                                         {openReplies[tweet.id] ? 'Hide Replies' : 'View Replies'}
                                     </Button>
+                                )}
+                                {userId === tweet.uid && ( // 自分のツイートにのみデリートボタンを表示
+                                    <DeleteTweetButton tweetId={tweet.id} onDelete={handleDelete} sx={{ ml: 2.5 }} /> // スタイルを直接追加
                                 )}
                             </Box>
                             {openReplies[tweet.id] && (
@@ -116,6 +127,10 @@ export const TweetList: React.FC = () => {
 };
 
 export default TweetList;
+
+
+
+
 
 
 

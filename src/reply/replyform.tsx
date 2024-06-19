@@ -51,6 +51,7 @@ export const ReplyComponent: React.FC<ParentTweetProps> = ({ tweetId }) => {
       setContent('');
       setShowReplyForm(false);
       setError('');
+      window.location.reload(); 
     } else {
       setError('Failed to submit reply');
       console.error('Failed to submit reply');
@@ -106,7 +107,7 @@ export const ReplyComponent: React.FC<ParentTweetProps> = ({ tweetId }) => {
 
 export default ReplyComponent;
 
-
+//リプライを投稿した時にリロードされるようにする
 
 
 

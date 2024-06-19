@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { fireAuth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import './updateProfile.css'; // CSSをインポート
+import ProfileCard from "../User/ProfileCard";
+import { Sidebar } from "../sidebar/Sidebar";
 
 export const Profile: React.FC = () => {
     const [nickname, setNickname] = useState("");
@@ -55,21 +57,27 @@ export const Profile: React.FC = () => {
     };
 
     return (
-        <div className="profile-container">
-            <div className="profile-header">
-                <h2>プロフィール設定</h2>
-                <button onClick={handleProfileUpdate}>保存</button>
-            </div>
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
-            <div className="profile-input-container">
-                <label>
-                    Name
-                    <input type="text" value={nickname} onChange={(e) => setNickname(e.target.value)} />
-                </label>
-                <label>
-                    Bio
-                    <textarea value={bio} onChange={(e) => setBio(e.target.value)}></textarea>
-                </label>
+        <div className="profile-page-container">
+            <Sidebar/>
+            <div className="profile-content">
+                <ProfileCard />
+                <div className="profile-container">
+                    <div className="profile-header">
+                        <h2>プロフィール設定</h2>
+                        <button onClick={handleProfileUpdate}>保存</button>
+                    </div>
+                    {errorMessage && <p className="error-message">{errorMessage}</p>}
+                    <div className="profile-input-container">
+                        <label>
+                            Name
+                            <input type="text" value={nickname} onChange={(e) => setNickname(e.target.value)} />
+                        </label>
+                        <label>
+                            Bio
+                            <textarea value={bio} onChange={(e) => setBio(e.target.value)}></textarea>
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
     );
@@ -78,5 +86,7 @@ export const Profile: React.FC = () => {
 export default Profile;
 
 
+
 //ナビゲーションのプロフィールボタンを教えたら、自分のプロフィールカードとeditボタンが表示される editボタンを押すと、プロフィール編集ページに遷移する
-//アバターの自動生成を使ってアイコンを作成する　dicebear avatarsのhttpapiを利用する
+//アバターの自動生成を使ってアイコンを作成する　dicebearのapiを使ってアイコンを作成する　ローディングスピナーを使ってあたかも自動生成している感を出す
+

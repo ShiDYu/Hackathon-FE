@@ -1,0 +1,20 @@
+.profile-card {
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    margin-top: 20px;
+    background-color: #fff;
+}
+
+
+.avatar-icon {
+    border-radius: 50%;
+}
+
+.circular {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 28vh; /* 必要に応じて高さを設定 */
+}

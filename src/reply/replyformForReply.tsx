@@ -43,6 +43,7 @@ export const ReplyForm: React.FC<ParentReplyProps> = ({ replyId, open, onClose }
       setContent('');
       onClose();
       setError('');
+      window.location.reload(); 
     } else {
       setError('Failed to submit reply');
       console.error('Failed to submit reply');

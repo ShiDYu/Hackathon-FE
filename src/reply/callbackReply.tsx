@@ -5,6 +5,7 @@ import LikeButtonForreply from '../Like/LikesButtonForreply';
 import ReplyForm from './replyformForReply';
 import ReplyReplyCount from './replyCountForreply';
 import ReplyIcon from '@mui/icons-material/Reply';
+import DeleteReplyButton from './DeleteReply'; // リプライ削除ボタンをインポート
 
 interface Reply {
     id: number;
@@ -91,6 +92,10 @@ export const RepliesToReply: React.FC<RepliesProps> = ({ replyId }) => {
         setOpenReplyFormId(null);
     };
 
+    const handleDelete = (replyId: number) => {
+        setReplies(replies.filter(reply => reply.id !== replyId));
+    };
+
     return (
         <Box>
             {replies.map((reply: Reply) => (
@@ -108,7 +113,7 @@ export const RepliesToReply: React.FC<RepliesProps> = ({ replyId }) => {
                         </Typography>
                         <Box display="flex" alignItems="center" sx={{ mt: 1 }}>
                             <LikeButtonForreply replyId={reply.id} userId={userId || ""} />
-                            <IconButton onClick={() => handleReplyClick(reply.id)}>
+                            <IconButton onClick={() => handleReplyClick(reply.id)} sx={{ ml: 1 }}>
                                 <ReplyIcon />
                             </IconButton>
                             <ReplyReplyCount replyId={reply.id} />
@@ -116,6 +121,9 @@ export const RepliesToReply: React.FC<RepliesProps> = ({ replyId }) => {
                                 <Button onClick={() => toggleReplies(reply.id)} sx={{ marginLeft: '16px' }}>
                                     {openReplies[reply.id] ? 'Hide Replies' : 'View Replies'}
                                 </Button>
+                            )}
+                            {userId === reply.uid && (
+                                <DeleteReplyButton replyId={reply.id} onDelete={handleDelete} sx={{ ml: 2 }}/>
                             )}
                         </Box>
                         {openReplies[reply.id] && (
@@ -135,5 +143,6 @@ export const RepliesToReply: React.FC<RepliesProps> = ({ replyId }) => {
 };
 
 export default RepliesToReply;
+
 
 
