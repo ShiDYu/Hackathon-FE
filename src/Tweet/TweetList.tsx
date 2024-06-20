@@ -110,7 +110,7 @@ export const TweetList: React.FC = () => {
               <Box display="flex" alignItems="center" sx={{ mt: 1 }}>
                 <LikeButton postId={tweet.id} userId={userId || ""} />
                 <Box display="flex" alignItems="center" sx={{ ml: 2 }}>
-                  <ReplyComponent tweetId={tweet.id} />
+                  <ReplyComponent tweetId={tweet.id.toString()} initialContent={tweet.content} />
                   <ReplyCount tweetId={tweet.id} onReplyCount={(count) => handleReplyCount(tweet.id, count)} />
                 </Box>
                 {replyCounts[tweet.id] > 0 && (
@@ -143,6 +143,7 @@ export const TweetList: React.FC = () => {
 };
 
 export default TweetList;
+
 
 
 

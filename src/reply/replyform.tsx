@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { fireAuth } from '../firebase';
 import ReplyIcon from '@mui/icons-material/Reply';
-import { IconButton, TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
+import { IconButton, TextField, Button, Dialog, DialogActions, DialogContent } from '@mui/material';
 
 interface ParentTweetProps {
   tweetId: string;
+  initialContent: string;
 }
 
-export const ReplyComponent: React.FC<ParentTweetProps> = ({ tweetId }) => {
+export const ReplyComponent: React.FC<ParentTweetProps> = ({ tweetId, initialContent }) => {
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [content, setContent] = useState('');
   const [error, setError] = useState('');
+  const [tweetContent] = useState(initialContent); // 初期のツイート内容を設定
   const user = fireAuth.currentUser;
   const MAX_CHARS = 140;
 
@@ -51,10 +53,36 @@ export const ReplyComponent: React.FC<ParentTweetProps> = ({ tweetId }) => {
       setContent('');
       setShowReplyForm(false);
       setError('');
-      window.location.reload(); 
+      window.location.reload();
     } else {
       setError('Failed to submit reply');
       console.error('Failed to submit reply');
+    }
+  };
+
+  const handleAIReply = async () => {
+    if (!tweetContent) {
+      setError('Failed to load tweet content');
+      console.error('tweetContent is not loaded');
+      return;
+    }
+
+    console.log('tweetContent:', tweetContent);
+    const response = await fetch(`http://localhost:8000/ai-reply?tweetId=${tweetId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        prompt: `"${tweetContent}" これに対する面白いリプライを考えてください。語尾は、っぴ、にしてください。返すのはリプライのみにしてください。`,
+      }),
+    });
+
+    if (response.ok) {
+      window.location.reload();
+    } else {
+      setError('Failed to get AI reply');
+      console.error('Failed to get AI reply');
     }
   };
 
@@ -97,6 +125,9 @@ export const ReplyComponent: React.FC<ParentTweetProps> = ({ tweetId }) => {
               <Button type="submit" variant="contained" color="primary">
                 Submit
               </Button>
+              <Button onClick={handleAIReply} variant="contained" color="secondary">
+                みどぴっぴにリプライを書いてもらう
+              </Button>
             </DialogActions>
           </form>
         </DialogContent>
@@ -106,6 +137,8 @@ export const ReplyComponent: React.FC<ParentTweetProps> = ({ tweetId }) => {
 };
 
 export default ReplyComponent;
+
+
 
 //リプライを投稿した時にリロードされるようにする
 
