@@ -1,31 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { fireAuth } from "../firebase";
 import { useNavigate } from "react-router-dom";
-import { IconButton, Button, TextField, Container, Typography, Box, CircularProgress } from "@mui/material";
+import { IconButton, Button, TextField, Container, Typography, Box, CircularProgress, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { Sidebar } from "../sidebar/Sidebar";
 
 export const CreateTweet: React.FC = () => {
-    const [content, setContent] = useState("");
+    const [mood, setMood] = useState(""); // 気分を入力するための状態
+    const [tweetContent, setTweetContent] = useState(""); // ツイート内容を保存する状態
     const [errorMessage, setErrorMessage] = useState<string | null>(""); 
-    const [isLoading, setIsLoading] = useState(false); // ローディング状態を管理するための状態を追加
+    const [isLoading, setIsLoading] = useState(false); // ローディング状態を管理するための状態
+    const [openPopular, setOpenPopular] = useState(false); // いいね数が稼げそうなツイートのポップアップ
+    const [openFunny, setOpenFunny] = useState(false); // 面白いツイートのポップアップ
     const navigate = useNavigate();
     const MAX_CHARS = 140;
 
     const handleCreateTweet = async () => {
         const user = fireAuth.currentUser;
         if (user) {
-            if (content.trim() === "") {
+            if (tweetContent.trim() === "") {
                 setErrorMessage("ツイート内容が空です。");
                 return;
             }
-            if (content.length > MAX_CHARS) {
+            if (tweetContent.length > MAX_CHARS) {
                 setErrorMessage(`ツイート内容が${MAX_CHARS}文字を超えています。`);
                 return;
             }
             const tweetInfo = {
                 uid: user.uid,
-                content: content,
+                content: tweetContent,
             };
 
             try {
@@ -56,6 +59,44 @@ export const CreateTweet: React.FC = () => {
         }
     };
 
+    const handleGenerateTweet = async (prompt: string) => {
+        setIsLoading(true);
+        try {
+            const response = await fetch('http://localhost:8000/generate-tweet', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ prompt })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setTweetContent(data.content); // 結果をツイート入力欄に表示
+            } else {
+                console.error('ツイートの生成に失敗しました。');
+                setErrorMessage('ツイートの生成に失敗しました。');
+            }
+        } catch (error) {
+            console.error('Error generating tweet:', error);
+            setErrorMessage('ツイートの生成中にエラーが発生しました。');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleGeneratePopularTweet = () => {
+        const prompt = `${mood} これに関連して自由に発想していいね数が稼げそうなツイートを考えて。回答は140字以内のツイートのみにして。`;
+        handleGenerateTweet(prompt);
+        setOpenPopular(false); // ダイアログを閉じる
+    };
+
+    const handleGenerateFunnyTweet = () => {
+        const prompt = `${mood} これに関連して自由に発想して面白く、笑えるツイートを考えて。回答は140字以内のツイートのみにして。`;
+        handleGenerateTweet(prompt);
+        setOpenFunny(false); // ダイアログを閉じる
+    };
+
     return (
         <Box display="flex">
             <Sidebar />
@@ -71,9 +112,6 @@ export const CreateTweet: React.FC = () => {
                                 <CloseIcon />
                             </IconButton>
                             {errorMessage && <Typography color="error" sx={{ mb: 2 }}>{errorMessage}</Typography>}
-                            <Button variant="contained" color="primary" onClick={handleCreateTweet}>
-                                投稿
-                            </Button>
                         </Box>
                         <TextField
                             fullWidth
@@ -81,13 +119,64 @@ export const CreateTweet: React.FC = () => {
                             rows={4}
                             variant="outlined"
                             placeholder="What is happening?!"
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
+                            value={tweetContent}
+                            onChange={(e) => setTweetContent(e.target.value)} // ツイート内容の変更をハンドリング
                             inputProps={{ maxLength: MAX_CHARS }}
+                            sx={{
+                                backgroundColor: 'white',
+                                '& .MuiOutlinedInput-root': {
+                                    backgroundColor: 'white', // 背景色を白に設定
+                                },
+                            }}
                         />
                         <Typography variant="caption" display="block" sx={{ mt: 1 }}>
-                            {content.length}/{MAX_CHARS}
+                            {tweetContent.length}/{MAX_CHARS}
                         </Typography>
+                        <Box display="flex" flexDirection="column" alignItems="flex-start" mt={2}>
+                            <Button variant="contained" color="primary" onClick={handleCreateTweet} sx={{ mb: 2 }}>
+                                投稿
+                            </Button>
+                            <Button variant="contained" color="secondary" onClick={() => setOpenPopular(true)} sx={{ mb: 2 }}>
+                                いいね数重視のツイートを生成する
+                            </Button>
+                            <Button variant="contained" color="secondary" onClick={() => setOpenFunny(true)}>
+                                面白いツイートを生成する
+                            </Button>
+                        </Box>
+                        <Dialog open={openPopular} onClose={() => setOpenPopular(false)}>
+                            <DialogTitle>気分や出来事を入力してください</DialogTitle>
+                            <DialogContent>
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    type="text"
+                                    fullWidth
+                                    value={mood}
+                                    onChange={(e) => setMood(e.target.value)}
+                                />
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={() => setOpenPopular(false)}>キャンセル</Button>
+                                <Button onClick={handleGeneratePopularTweet}>生成</Button>
+                            </DialogActions>
+                        </Dialog>
+                        <Dialog open={openFunny} onClose={() => setOpenFunny(false)}>
+                            <DialogTitle>気分や出来事を入力してください</DialogTitle>
+                            <DialogContent>
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    type="text"
+                                    fullWidth
+                                    value={mood}
+                                    onChange={(e) => setMood(e.target.value)}
+                                />
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={() => setOpenFunny(false)}>キャンセル</Button>
+                                <Button onClick={handleGenerateFunnyTweet}>生成</Button>
+                            </DialogActions>
+                        </Dialog>
                     </>
                 )}
             </Container>
@@ -96,5 +185,18 @@ export const CreateTweet: React.FC = () => {
 };
 
 export default CreateTweet;
+
+
+
+//apiからのレスポンスを入力欄に反映できていない
+
+
+
+
+
+
+
+
+
 
 

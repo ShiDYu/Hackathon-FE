@@ -59,7 +59,6 @@ export const ReplyForm: React.FC<ParentReplyProps> = ({ replyId, open, onClose }
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Reply</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit}>
           <TextField

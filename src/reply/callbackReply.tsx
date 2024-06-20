@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Divider, IconButton, Button } from '@mui/material';
+import { Box, Typography, Divider, IconButton, Button, Avatar } from '@mui/material';
 import { fireAuth } from '../firebase';
 import LikeButtonForreply from '../Like/LikesButtonForreply';
 import ReplyForm from './replyformForReply';
@@ -15,7 +15,7 @@ interface Reply {
     content: string;
     date: string; // ISO文字列として保存されていると仮定します
     nickname: string;
-    like_count: number;
+    avatarUrl: string; // アバターURLを追加
 }
 
 interface RepliesProps {
@@ -98,39 +98,42 @@ export const RepliesToReply: React.FC<RepliesProps> = ({ replyId }) => {
 
     return (
         <Box>
-            {replies.map((reply: Reply) => (
-                <Box key={reply.id} sx={{ pl: 4, mb: 2 }}>
+            {replies.map((reply: any) => (
+                <Box key={reply.id} sx={{ mb: 2 }}>
                     <Divider />
-                    <Box sx={{ p: 2 }}>
-                        <Typography variant="h6" component="div">
-                            {reply.nickname}
-                        </Typography>
-                        <Typography variant="caption" color="textSecondary">
-                            {new Date(reply.date).toLocaleString()}
-                        </Typography>
-                        <Typography variant="body1" sx={{ mt: 1 }}>
-                            {reply.content}
-                        </Typography>
-                        <Box display="flex" alignItems="center" sx={{ mt: 1 }}>
-                            <LikeButtonForreply replyId={reply.id} userId={userId || ""} />
-                            <IconButton onClick={() => handleReplyClick(reply.id)} sx={{ ml: 1 }}>
-                                <ReplyIcon />
-                            </IconButton>
-                            <ReplyReplyCount replyId={reply.id} />
-                            {replyReplyCounts[reply.id] > 0 && (
-                                <Button onClick={() => toggleReplies(reply.id)} sx={{ marginLeft: '16px' }}>
-                                    {openReplies[reply.id] ? 'Hide Replies' : 'View Replies'}
-                                </Button>
-                            )}
-                            {userId === reply.uid && (
-                                <DeleteReplyButton replyId={reply.id} onDelete={handleDelete} sx={{ ml: 2 }}/>
+                    <Box sx={{ p: 2, display: 'flex', alignItems: 'flex-start' }}>
+                        <Avatar alt={reply.nickname} src={reply.avatar_url} sx={{ mt:1,width: 40, height: 40, mr: 2, border: '2px solid #1DA1F2', borderRadius: '50%' }} />
+                        <Box>
+                            <Typography variant="h6" component="div">
+                                {reply.nickname}
+                            </Typography>
+                            <Typography variant="caption" color="textSecondary">
+                                {new Date(reply.createdAt).toLocaleString()}
+                            </Typography>
+                            <Typography variant="body1" sx={{ mt: 1 }}>
+                                {reply.content}
+                            </Typography>
+                            <Box display="flex" alignItems="center" sx={{ mt: 1 }}>
+                                <LikeButtonForreply replyId={reply.id} userId={userId || ""} />
+                                <IconButton onClick={() => handleReplyClick(reply.id)} sx={{ ml: 1 }}>
+                                    <ReplyIcon />
+                                </IconButton>
+                                <ReplyReplyCount replyId={reply.id} />
+                                {replyReplyCounts[reply.id] > 0 && (
+                                    <Button onClick={() => toggleReplies(reply.id)} sx={{ marginLeft: '16px' }}>
+                                        {openReplies[reply.id] ? 'Hide Replies' : 'View Replies'}
+                                    </Button>
+                                )}
+                                {userId === reply.uid && (
+                                    <DeleteReplyButton replyId={reply.id} onDelete={handleDelete} sx={{ ml: 2 }}/>
+                                )}
+                            </Box>
+                            {openReplies[reply.id] && (
+                                <Box mt={2}>
+                                    <RepliesToReply replyId={reply.id} />
+                                </Box>
                             )}
                         </Box>
-                        {openReplies[reply.id] && (
-                            <Box mt={2}>
-                                <RepliesToReply replyId={reply.id} />
-                            </Box>
-                        )}
                     </Box>
                     <Divider />
                 </Box>
@@ -143,6 +146,3 @@ export const RepliesToReply: React.FC<RepliesProps> = ({ replyId }) => {
 };
 
 export default RepliesToReply;
-
-
-
