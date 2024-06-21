@@ -50,7 +50,7 @@ export const FirstProfile: React.FC = () => {
                 if (response.ok) {
                     // アバターの生成
                     // const avatarUrl = `https://api.dicebear.com/9.x/adventurer/svg?seed=${nickname}`;
-                    const avatarUrl = `https://robohash.org/${nickname}/set=set4`;
+                    const avatarUrl = `https://robohash.org/${nickname}?set=set4`;
                     
                     // アイコンとして保存（サーバーに送る等の処理を追加）
                     await saveAvatar(user.uid, avatarUrl);
