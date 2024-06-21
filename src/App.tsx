@@ -43,7 +43,7 @@ function App() {
                   {/* path="/profile"に一致するURLがアクセスされたときにProfileコンポーネントをレンダリングする */}
                   <Route path="/avatar" element={<Avatar />} />
                   <Route path="/signup" element={<SignUp />} />
-                  <Route path="/profile" element={<Profile/>} />
+                  <Route path="profile" element={<Profile/>} />
                   <Route path="/set-first-profile" element={<FirstProfile/>} />
                   <Route path="/tweets" element={<TweetList/>} />
                   <Route path="/create-tweet" element={<CreateTweet />} />
