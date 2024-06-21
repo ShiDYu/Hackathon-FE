@@ -12,6 +12,7 @@ export const FirstProfile: React.FC = () => {
     const navigate = useNavigate();
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+    console.log('API Base URL:', apiBaseUrl);
 
     const handleProfileUpdate = async () => {
         const user = fireAuth.currentUser;
