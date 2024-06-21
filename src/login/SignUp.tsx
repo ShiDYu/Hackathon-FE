@@ -11,6 +11,8 @@ export const SignUp: React.FC = () => {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
     const handleGoogleSignUp = async () => {
         try {
             const result = await signInWithGoogle();
@@ -43,7 +45,7 @@ export const SignUp: React.FC = () => {
     const sendUidToBackend = async (userInfo: { id: string }) => {
         console.log('Sending UID to backend:', userInfo); // ここでログを出力
         try {
-            const response = await fetch('http://localhost:8000/register', {
+            const response = await fetch(`${apiBaseUrl}/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

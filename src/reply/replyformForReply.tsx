@@ -13,6 +13,7 @@ export const ReplyForm: React.FC<ParentReplyProps> = ({ replyId, open, onClose }
   const [error, setError] = useState('');
   const user = fireAuth.currentUser;
   const MAX_CHARS = 140;
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,7 +28,7 @@ export const ReplyForm: React.FC<ParentReplyProps> = ({ replyId, open, onClose }
       return;
     }
 
-    const response = await fetch('http://localhost:8000/replytoreply', { //apiのURLを変更
+    const response = await fetch(`${apiBaseUrl}/replytoreply`, { //apiのURLを変更
       method: 'POST', 
       headers: {
         'Content-Type': 'application/json',

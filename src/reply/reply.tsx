@@ -28,6 +28,8 @@ export const Replies: React.FC<ParentTweetProps> = ({ tweetId }) => {
     const [replyReplyCounts, setReplyReplyCounts] = useState<{ [key: number]: number }>({});
     const [openReplyFormId, setOpenReplyFormId] = useState<number | null>(null);
 
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
     useEffect(() => {
         const unsubscribe = fireAuth.onAuthStateChanged(user => {
             if (user) {
@@ -43,7 +45,7 @@ export const Replies: React.FC<ParentTweetProps> = ({ tweetId }) => {
     useEffect(() => {
         const fetchReplies = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/replies?tweet_id=${tweetId}`);
+                const response = await fetch(`${apiBaseUrl}/replies?tweet_id=${tweetId}`);
                 if (response.ok) {
                     const data = await response.json();
                     console.log(data);
@@ -63,7 +65,7 @@ export const Replies: React.FC<ParentTweetProps> = ({ tweetId }) => {
         const fetchReplyReplyCounts = async () => {
             const counts: { [key: number]: number } = {};
             for (const reply of replies) {
-                const response = await fetch(`http://localhost:8000/reply_replies/count?reply_id=${reply.id}`);
+                const response = await fetch(`${apiBaseUrl}/reply_replies/count?reply_id=${reply.id}`);
                 if (response.ok) {
                     const data = await response.json();
                     counts[reply.id] = data.count;

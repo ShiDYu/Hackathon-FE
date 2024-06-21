@@ -20,9 +20,11 @@ export const TweetPage: React.FC = () => {
   const [tweet, setTweet] = useState<Tweet | null>(null);
   const [replies, setReplies] = useState<Tweet[]>([]);
 
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
   useEffect(() => {
     const fetchTweet = async () => {
-      const response = await fetch(`http://localhost:8000/repliedTweet?tweet_id=${id}`);
+      const response = await fetch(`${apiBaseUrl}/repliedTweet?tweet_id=${id}`);
       if (response.ok) {
         const data: Tweet = await response.json();
         setTweet(data);
@@ -32,7 +34,7 @@ export const TweetPage: React.FC = () => {
     };
 
     const fetchReplies = async () => {
-      const response = await fetch(`http://localhost:8000/replies?tweet_id=${id}`);
+      const response = await fetch(`${apiBaseUrl}/replies?tweet_id=${id}`);
       if (response.ok) {
         const data: Tweet[] = await response.json();
         setReplies(data);

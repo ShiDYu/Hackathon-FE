@@ -15,6 +15,8 @@ export const ProfileCard: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [userId, setUserId] = useState<string | null>(null);
 
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
     useEffect(() => {
         const unsubscribe = fireAuth.onAuthStateChanged(user => {
             if (user) {
@@ -32,7 +34,7 @@ export const ProfileCard: React.FC = () => {
             console.log(userId);
             if (userId) {
                 try {
-                    const response = await fetch(`http://localhost:8000/profilecard?userId=${userId}`);
+                    const response = await fetch(`${apiBaseUrl}/profilecard?userId=${userId}`);
                     if (response.ok) {
                         const data = await response.json();
                         setProfile({

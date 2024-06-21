@@ -29,6 +29,8 @@ export const TweetList: React.FC = () => {
   const navigate = useNavigate();
   const [userId, setUserId] = useState<string | null>(null);
 
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
   useEffect(() => {
     const unsubscribe = fireAuth.onAuthStateChanged(user => {
       if (user) {
@@ -43,7 +45,7 @@ export const TweetList: React.FC = () => {
 
   useEffect(() => {
     const fetchTweets = async () => {
-      const response = await fetch('http://localhost:8000/tweets');
+      const response = await fetch(`${apiBaseUrl}/tweets`);
       const data = await response.json();
       console.log(data);
       setTweets(data);

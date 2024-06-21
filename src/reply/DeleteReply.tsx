@@ -10,9 +10,12 @@ interface DeleteReplyButtonProps {
 }
 
 const DeleteReplyButton: React.FC<DeleteReplyButtonProps> = ({ replyId, onDelete, sx }) => {
+
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
     const handleDelete = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/replies/delete?replyId=${replyId}`, {
+            const response = await fetch(`${apiBaseUrl}/replies/delete?replyId=${replyId}`, {
                 method: 'POST',
             });
             if (response.ok) {

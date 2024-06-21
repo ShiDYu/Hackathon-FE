@@ -13,6 +13,8 @@ interface LikeButtonProps {
 export const LikeButton:React.FC<LikeButtonProps>= ({ postId , userId }) => {
     const [liked, setLiked] = useState(false);
     const [likeCount, setLikeCount] = useState(0);
+
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   
     useEffect(() => {
       console.log('postId:', postId, 'userId:', userId);
@@ -24,7 +26,7 @@ export const LikeButton:React.FC<LikeButtonProps>= ({ postId , userId }) => {
           }
 
           try {
-              const response = await fetch(`http://localhost:8000/posts/likes?userId=${userId}&postId=${postId}`);
+              const response = await fetch(`${apiBaseUrl}/posts/likes?userId=${userId}&postId=${postId}`);
               if (!response.ok) {
                   throw new Error('Network response was not ok');
               }
@@ -45,7 +47,7 @@ export const LikeButton:React.FC<LikeButtonProps>= ({ postId , userId }) => {
     const toggleLike = () => {
       console.log('userId:', userId, 'postId:', postId, 'liked:', liked);　// いいねの状態を確認
       console.log(`$typeof userId: ${typeof userId}, typeof postId: ${typeof postId}`);
-      const url = liked ? `http://localhost:8000/posts/unlike` : `http://localhost:8000/posts/like`;
+      const url = liked ? `${apiBaseUrl}/posts/unlike` : `${apiBaseUrl}/posts/like`;
       fetch(url, {
         method: 'POST',
         headers: {

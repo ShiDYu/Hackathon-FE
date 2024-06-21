@@ -10,9 +10,10 @@ interface DeleteTweetButtonProps {
 }
 
 const DeleteTweetButton: React.FC<DeleteTweetButtonProps> = ({ tweetId, onDelete, sx }) => {
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const handleDelete = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/tweets/delete?tweetId=${tweetId}`, {
+            const response = await fetch(`${apiBaseUrl}/tweets/delete?tweetId=${tweetId}`, {
                 method: 'POST',
             });
             if (response.ok) {

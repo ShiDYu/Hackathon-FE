@@ -16,6 +16,8 @@ export const ReplyComponent: React.FC<ParentTweetProps> = ({ tweetId, initialCon
   const user = fireAuth.currentUser;
   const MAX_CHARS = 140;
 
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
   const handleReplyClick = () => {
     setShowReplyForm(true);
   };
@@ -37,7 +39,7 @@ export const ReplyComponent: React.FC<ParentTweetProps> = ({ tweetId, initialCon
       return;
     }
 
-    const response = await fetch('http://localhost:8000/reply', {
+    const response = await fetch(`${apiBaseUrl}/reply`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -68,7 +70,7 @@ export const ReplyComponent: React.FC<ParentTweetProps> = ({ tweetId, initialCon
     }
 
     console.log('tweetContent:', tweetContent);
-    const response = await fetch(`http://localhost:8000/ai-reply?tweetId=${tweetId}`, {
+    const response = await fetch(`${apiBaseUrl}/ai-reply?tweetId=${tweetId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

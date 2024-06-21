@@ -14,6 +14,7 @@ export const CreateTweet: React.FC = () => {
     const [openFunny, setOpenFunny] = useState(false); // 面白いツイートのポップアップ
     const navigate = useNavigate();
     const MAX_CHARS = 140;
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
     const handleCreateTweet = async () => {
         const user = fireAuth.currentUser;
@@ -33,7 +34,7 @@ export const CreateTweet: React.FC = () => {
 
             try {
                 setIsLoading(true); // ローディング開始
-                const response = await fetch('http://localhost:8000/create-tweet', {
+                const response = await fetch(`${apiBaseUrl}/create-tweet`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -62,7 +63,7 @@ export const CreateTweet: React.FC = () => {
     const handleGenerateTweet = async (prompt: string) => {
         setIsLoading(true);
         try {
-            const response = await fetch('http://localhost:8000/generate-tweet', {
+            const response = await fetch(`${apiBaseUrl}/generate-tweet`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

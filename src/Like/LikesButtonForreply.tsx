@@ -12,6 +12,8 @@ export const LikeButtonForreply: React.FC<LikeButtonProps> = ({ replyId, userId 
     const [liked, setLiked] = useState(false);
     const [likeCount, setLikeCount] = useState(0);
 
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
     useEffect(() => {
         const fetchLikes = async () => {
             console.log('replyId:', replyId, 'userId:', userId);
@@ -19,7 +21,7 @@ export const LikeButtonForreply: React.FC<LikeButtonProps> = ({ replyId, userId 
             replyId = Number(replyId);
             console.log(`$typeof userId: ${typeof userId}, typeof replyId: ${typeof replyId}`);
             try {
-                const response = await fetch(`http://localhost:8000/replies/likes?userId=${userId}&replyId=${replyId}`);
+                const response = await fetch(`${apiBaseUrl}/replies/likes?userId=${userId}&replyId=${replyId}`);
                 const data = await response.json();
                 setLiked(data.likedByUser);
                 setLikeCount(data.likeCount);
@@ -34,7 +36,7 @@ export const LikeButtonForreply: React.FC<LikeButtonProps> = ({ replyId, userId 
     const toggleLike = () => {
         console.log('userId:', userId, 'replyId:', replyId, 'liked:', liked);
         console.log(`$typeof userId: ${typeof userId}, typeof replyId: ${typeof replyId}`);
-        const url = liked ? `http://localhost:8000/replies/unlike` : `http://localhost:8000/replies/like`;
+        const url = liked ? `${apiBaseUrl}/replies/unlike` : `${apiBaseUrl}/replies/like`;
         fetch(url, {
             method: 'POST',
             headers: {

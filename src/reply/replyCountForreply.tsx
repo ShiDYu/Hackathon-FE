@@ -7,9 +7,11 @@ interface ReplyProps {
 export const ReplyReplyCount: React.FC<ReplyProps> = ({ replyId }) => {
     const [replyReplyCount, setReplyReplyCount] = useState(0);
 
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
     useEffect(() => {
         const fetchReplyReplyCount = async () => {
-            const response = await fetch(`http://localhost:8000/reply_replies/count?reply_id=${replyId}`);
+            const response = await fetch(`${apiBaseUrl}/reply_replies/count?reply_id=${replyId}`);
             if (response.ok) {
                 const data = await response.json();
                 setReplyReplyCount(data.count);

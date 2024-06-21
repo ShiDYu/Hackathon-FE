@@ -11,6 +11,8 @@ export const FirstProfile: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
     const handleProfileUpdate = async () => {
         const user = fireAuth.currentUser;
         if (user) {
@@ -37,7 +39,7 @@ export const FirstProfile: React.FC = () => {
             };
 
             try {
-                const response = await fetch('http://localhost:8000/profile', {
+                const response = await fetch(`${apiBaseUrl}/profile`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -69,7 +71,7 @@ export const FirstProfile: React.FC = () => {
     // アバターを保存する関数（例：サーバーに送信）
     const saveAvatar = async (userId: string, avatarURL: string) => {
         try {
-            const response = await fetch('http://localhost:8000/save-avatar', {
+            const response = await fetch(`${apiBaseUrl}/save-avatar`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

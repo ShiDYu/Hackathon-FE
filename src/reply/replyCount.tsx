@@ -8,9 +8,11 @@ interface ReplyCountProps {
 export const ReplyCount: React.FC<ReplyCountProps> = ({ tweetId, onReplyCount }) => {
     const [count, setCount] = useState(0);
 
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
     useEffect(() => {
         const fetchReplyCount = async () => {
-            const response = await fetch(`http://localhost:8000/reply/count?tweet_id=${tweetId}`);
+            const response = await fetch(`${apiBaseUrl}/reply/count?tweet_id=${tweetId}`);
             if (response.ok) {
                 const data = await response.json();
                 setCount(data.count);

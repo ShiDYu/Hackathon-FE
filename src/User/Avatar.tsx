@@ -7,12 +7,14 @@ export const Avatar: React.FC = () => {
     const [avatarUrl, setAvatarUrl] = useState("");
     const navigate = useNavigate();
 
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
     useEffect(() => {
         const fetchAvatar = async () => {
             const user = fireAuth.currentUser;
             if (user) {
                 try {
-                    const response = await fetch(`http://localhost:8000/avatar?userId=${user.uid}`);
+                    const response = await fetch(`${apiBaseUrl}/avatar?userId=${user.uid}`);
                     if (response.ok) {
                         const data = await response.json();
                         setAvatarUrl(data.avatarUrl);

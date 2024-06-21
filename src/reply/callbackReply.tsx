@@ -29,6 +29,8 @@ export const RepliesToReply: React.FC<RepliesProps> = ({ replyId }) => {
     const [openReplyFormId, setOpenReplyFormId] = useState<number | null>(null);
     const [replyReplyCounts, setReplyReplyCounts] = useState<{ [key: number]: number }>({});
 
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
     useEffect(() => {
         const unsubscribe = fireAuth.onAuthStateChanged(user => {
             if (user) {
@@ -44,7 +46,7 @@ export const RepliesToReply: React.FC<RepliesProps> = ({ replyId }) => {
     useEffect(() => {
         const fetchReplies = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/replies/replies?reply_id=${replyId}`);
+                const response = await fetch(`${apiBaseUrl}/replies/replies?reply_id=${replyId}`);
                 if (response.ok) {
                     const data = await response.json();
                     setReplies(data || []); // nullの場合をハンドリング
@@ -63,7 +65,7 @@ export const RepliesToReply: React.FC<RepliesProps> = ({ replyId }) => {
         const fetchReplyReplyCounts = async () => {
             const counts: { [key: number]: number } = {};
             for (const reply of replies) {
-                const response = await fetch(`http://localhost:8000/reply_replies/count?reply_id=${reply.id}`);
+                const response = await fetch(`${apiBaseUrl}/reply_replies/count?reply_id=${reply.id}`);
                 if (response.ok) {
                     const data = await response.json();
                     counts[reply.id] = data.count;
