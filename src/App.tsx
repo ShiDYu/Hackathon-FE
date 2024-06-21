@@ -41,14 +41,14 @@ function App() {
         <Router>
               <Routes>
                   {/* path="/profile"に一致するURLがアクセスされたときにProfileコンポーネントをレンダリングする */}
-                  <Route path="/avatar" element={<Avatar />} />
-                  <Route path="/signup" element={<SignUp />} />
+                  <Route path="avatar" element={<Avatar />} />
+                  <Route path="signup" element={<SignUp />} />
                   <Route path="profile" element={<Profile/>} />
-                  <Route path="/set-first-profile" element={<FirstProfile/>} />
-                  <Route path="/tweets" element={<TweetList/>} />
-                  <Route path="/create-tweet" element={<CreateTweet />} />
-                  <Route path="/tweet/:id" element={<TweetPage />} />
-                  <Route path="/logout" element={<Logoutpage/>}/>
+                  <Route path="set-first-profile" element={<FirstProfile/>} />
+                  <Route path="tweets" element={<TweetList/>} />
+                  <Route path="create-tweet" element={<CreateTweet />} />
+                  <Route path="tweet/:id" element={<TweetPage />} />
+                  <Route path="logout" element={<Logoutpage/>}/>
                   {/* その他のすべてのURLパスに対してAuthコンポーネントをレンダリングする */}
                   <Route path="/" element={<SignIn />} />
               </Routes>
