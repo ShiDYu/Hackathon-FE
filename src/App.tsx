@@ -58,3 +58,5 @@ function App() {
 }
 
 export default App;
+
+//pathの先頭の/を取り除いた

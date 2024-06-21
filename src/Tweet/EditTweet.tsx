@@ -14,6 +14,8 @@ const EditTweetButton: React.FC<EditTweetButtonProps> = ({ tweetId, initialConte
   const [error, setError] = useState('');
   const MAX_CHARS = 140;
 
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -37,7 +39,7 @@ const EditTweetButton: React.FC<EditTweetButtonProps> = ({ tweetId, initialConte
     console.log(typeof tweetId);
 
     try {
-      const response = await fetch(`http://localhost:8000/update-tweet`, {
+      const response = await fetch(`${apiBaseUrl}/update-tweet`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
