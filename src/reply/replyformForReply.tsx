@@ -84,10 +84,10 @@ export const ReplyForm: React.FC<ParentReplyProps> = ({ replyId, open, onClose }
           />
           <DialogActions>
             <Button onClick={onClose} color="primary">
-              Cancel
+              やめる
             </Button>
             <Button type="submit" variant="contained" color="primary">
-              Submit
+              リプライ
             </Button>
           </DialogActions>
         </form>

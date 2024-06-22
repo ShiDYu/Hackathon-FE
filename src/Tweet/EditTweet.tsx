@@ -34,9 +34,6 @@ const EditTweetButton: React.FC<EditTweetButtonProps> = ({ tweetId, initialConte
       setError(`140文字以内で入力してください`);
       return;
     }
-    console.log('tweetId:', tweetId);
-    console.log('editContent:', editContent);
-    console.log(typeof tweetId);
 
     try {
       const response = await fetch(`${apiBaseUrl}/update-tweet`, {
@@ -57,6 +54,13 @@ const EditTweetButton: React.FC<EditTweetButtonProps> = ({ tweetId, initialConte
     } catch (error) {
       console.error("Failed to save tweet", error);
       setError('Failed to save tweet');
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault(); // テキストフィールドでの改行を防ぐ
+      handleSave();
     }
   };
 
@@ -82,6 +86,7 @@ const EditTweetButton: React.FC<EditTweetButtonProps> = ({ tweetId, initialConte
             rows={4}
             value={editContent}
             onChange={handleChange}
+            onKeyDown={handleKeyDown}
             inputProps={{ maxLength: MAX_CHARS }}
             error={Boolean(error)}
             helperText={error || `${editContent.length}/${MAX_CHARS}`}
@@ -89,10 +94,10 @@ const EditTweetButton: React.FC<EditTweetButtonProps> = ({ tweetId, initialConte
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Cancel
+            やめる
           </Button>
           <Button onClick={handleSave} variant="contained" color="primary">
-            Save
+            保存
           </Button>
         </DialogActions>
       </Dialog>
@@ -101,5 +106,6 @@ const EditTweetButton: React.FC<EditTweetButtonProps> = ({ tweetId, initialConte
 };
 
 export default EditTweetButton;
+
 
 

@@ -130,10 +130,10 @@ export const ReplyComponent: React.FC<ParentTweetProps> = ({ tweetId, initialCon
             />
             <DialogActions>
               <Button onClick={handleClose} color="primary">
-                Cancel
+                やめる
               </Button>
               <Button type="submit" variant="contained" color="primary">
-                Submit
+                リプライ
               </Button>
               <Button onClick={handleAIReply} variant="contained" color="secondary">
                 みどぴっぴにリプライを書いてもらう
