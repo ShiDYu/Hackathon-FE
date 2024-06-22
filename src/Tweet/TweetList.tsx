@@ -12,7 +12,7 @@ import './TweetList.css'; // CSSをインポート
 import ProfileCard from "../User/ProfileCard"; // プロフィールカードをインポート
 import DeleteTweetButton from './DeleteTweet'; // デリートボタンをインポート
 import EditTweetButton from './EditTweet'; // 編集ボタンをインポート
-import {TodayTweetCount} from './TweetCount'; // ツイート数を表示するコンポーネントをインポート
+import { TodayTweetCount } from './TweetCount'; // ツイート数を表示するコンポーネントをインポート
 
 interface Tweet {
   id: number;
@@ -20,7 +20,8 @@ interface Tweet {
   content: string;
   date: string; // dateはISO文字列として保存されていると仮定します
   nickname: string;
-  avatarURL: string; // アイコンのURLを追加
+  avatar_url: string; // アイコンのURLを追加 (キー名をavatar_urlに修正)
+  image_url?: string; // 画像URLを追加
 }
 
 export const TweetList: React.FC = () => {
@@ -82,14 +83,15 @@ export const TweetList: React.FC = () => {
   const handleSave = (tweetId: number, newContent: string) => {
     setTweets(tweets.map(t => t.id === tweetId ? { ...t, content: newContent } : t));
   };
+
   const formatTweetContent = (content: string) => {
     return content.split('\n').map((line, index) => (
-        <span key={index}>
-            {line}
-            <br />
-        </span>
+      <span key={index}>
+        {line}
+        <br />
+      </span>
     ));
-};
+  };
 
   return (
     <Box display="flex">
@@ -98,7 +100,7 @@ export const TweetList: React.FC = () => {
       <Container maxWidth="md" sx={{ ml: '260px', flex: 1, my: 2, backgroundColor: '#f0f0f0' }}>
         <ProfileCard /> {/* プロフィールカードを追加 */}
         <Box>
-          {sortedTweets.map((tweet: any) => (
+          {sortedTweets.map((tweet: Tweet) => (
             <Paper key={tweet.id} variant="outlined" sx={{ p: 2, mb: 2 }}>
               <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Box display="flex" alignItems="center">
@@ -119,6 +121,11 @@ export const TweetList: React.FC = () => {
               <Typography variant="body1" sx={{ mt: 1 }}>
                 {formatTweetContent(tweet.content)}
               </Typography>
+              {tweet.image_url && ( // 画像が存在する場合に表示
+                <Box sx={{ mt: 2 }}>
+                  <img src={tweet.image_url} alt="Tweet Image" style={{ maxWidth: '100%', borderRadius: '8px' }} />
+                </Box>
+              )}
               <Box display="flex" alignItems="center" sx={{ mt: 1 }}>
                 <LikeButton postId={tweet.id} userId={userId || ""} />
                 <Box display="flex" alignItems="center" sx={{ ml: 2 }}>

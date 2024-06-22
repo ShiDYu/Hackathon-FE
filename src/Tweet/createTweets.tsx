@@ -1,9 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { fireAuth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { IconButton, Button, TextField, Container, Typography, Box, CircularProgress, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { Sidebar } from "../sidebar/Sidebar";
+import UploadWidget from "./UploadWidget";
 
 export const CreateTweet: React.FC = () => {
     const [mood, setMood] = useState(""); // 気分を入力するための状態
@@ -12,6 +13,7 @@ export const CreateTweet: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false); // ローディング状態を管理するための状態
     const [openPopular, setOpenPopular] = useState(false); // いいね数が稼げそうなツイートのポップアップ
     const [openFunny, setOpenFunny] = useState(false); // 面白いツイートのポップアップ
+    const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null); // アップロードされた画像のURL
     const navigate = useNavigate();
     const MAX_CHARS = 140;
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -27,9 +29,11 @@ export const CreateTweet: React.FC = () => {
                 setErrorMessage(`ツイート内容が${MAX_CHARS}文字を超えています。`);
                 return;
             }
+
             const tweetInfo = {
                 uid: user.uid,
                 content: tweetContent,
+                image_url: uploadedImageUrl || null, // アップロードされた画像URLを使用
             };
 
             try {
@@ -105,7 +109,6 @@ export const CreateTweet: React.FC = () => {
         }
     };
 
-
     return (
         <Box display="flex">
             <Sidebar />
@@ -142,6 +145,12 @@ export const CreateTweet: React.FC = () => {
                         <Typography variant="caption" display="block" sx={{ mt: 1 }}>
                             {tweetContent.length}/{MAX_CHARS}
                         </Typography>
+                        <UploadWidget onUpload={setUploadedImageUrl} />
+                        {uploadedImageUrl && (
+                            <Box mt={2}>
+                                <img src={uploadedImageUrl} alt="Uploaded" style={{ maxWidth: '100%', borderRadius: '8px' }} />
+                            </Box>
+                        )}
                         <Box display="flex" flexDirection="column" alignItems="flex-start" mt={2}>
                             <Button variant="contained" color="primary" onClick={handleCreateTweet} sx={{ mb: 2 }}>
                                 投稿
@@ -195,6 +204,10 @@ export const CreateTweet: React.FC = () => {
 };
 
 export default CreateTweet;
+
+
+
+
 
 
 
