@@ -95,6 +95,13 @@ export const ReplyComponent: React.FC<ParentTweetProps> = ({ tweetId, initialCon
     }
   };
 
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        handleSubmit(new Event('submit') as unknown as React.FormEvent); // フォームを送信
+    }
+};
+
   return (
     <div>
       <IconButton onClick={handleReplyClick}>
@@ -116,6 +123,7 @@ export const ReplyComponent: React.FC<ParentTweetProps> = ({ tweetId, initialCon
               rows={4}
               value={content}
               onChange={handleChange}
+              onKeyPress={handleKeyPress} // Enterキー押下をハンドリング
               inputProps={{ maxLength: MAX_CHARS }}
               error={Boolean(error)}
               helperText={error || `${content.length}/${MAX_CHARS}`}

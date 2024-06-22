@@ -98,6 +98,14 @@ export const CreateTweet: React.FC = () => {
         setOpenFunny(false); // ダイアログを閉じる
     };
 
+    const handleKeyPress = (event: React.KeyboardEvent) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            handleCreateTweet();
+        }
+    };
+
+
     return (
         <Box display="flex">
             <Sidebar />
@@ -129,6 +137,7 @@ export const CreateTweet: React.FC = () => {
                                     backgroundColor: 'white', // 背景色を白に設定
                                 },
                             }}
+                            onKeyPress={handleKeyPress}
                         />
                         <Typography variant="caption" display="block" sx={{ mt: 1 }}>
                             {tweetContent.length}/{MAX_CHARS}

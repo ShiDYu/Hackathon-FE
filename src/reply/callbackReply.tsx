@@ -98,6 +98,15 @@ export const RepliesToReply: React.FC<RepliesProps> = ({ replyId }) => {
         setReplies(replies.filter(reply => reply.id !== replyId));
     };
 
+    const formatReplyContent = (content: string) => {
+        return content.split('\n').map((line, index) => (
+            <span key={index}>
+                {line}
+                <br />
+            </span>
+        ));
+    };
+
     return (
         <Box>
             {replies.map((reply: any) => (
@@ -113,7 +122,7 @@ export const RepliesToReply: React.FC<RepliesProps> = ({ replyId }) => {
                                 {new Date(reply.createdAt).toLocaleString()}
                             </Typography>
                             <Typography variant="body1" sx={{ mt: 1 }}>
-                                {reply.content}
+                                {formatReplyContent(reply.content)}
                             </Typography>
                             <Box display="flex" alignItems="center" sx={{ mt: 1 }}>
                                 <LikeButtonForreply replyId={reply.id} userId={userId || ""} />

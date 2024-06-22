@@ -81,6 +81,14 @@ export const TweetList: React.FC = () => {
   const handleSave = (tweetId: number, newContent: string) => {
     setTweets(tweets.map(t => t.id === tweetId ? { ...t, content: newContent } : t));
   };
+  const formatTweetContent = (content: string) => {
+    return content.split('\n').map((line, index) => (
+        <span key={index}>
+            {line}
+            <br />
+        </span>
+    ));
+};
 
   return (
     <Box display="flex">
@@ -107,7 +115,7 @@ export const TweetList: React.FC = () => {
                 </Box>
               </Box>
               <Typography variant="body1" sx={{ mt: 1 }}>
-                {tweet.content}
+                {formatTweetContent(tweet.content)}
               </Typography>
               <Box display="flex" alignItems="center" sx={{ mt: 1 }}>
                 <LikeButton postId={tweet.id} userId={userId || ""} />

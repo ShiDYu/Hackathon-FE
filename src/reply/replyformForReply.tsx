@@ -58,6 +58,13 @@ export const ReplyForm: React.FC<ParentReplyProps> = ({ replyId, open, onClose }
     }
   };
 
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        handleSubmit(new Event('submit') as unknown as React.FormEvent); // フォームを送信
+    }
+};
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogContent>
@@ -70,6 +77,7 @@ export const ReplyForm: React.FC<ParentReplyProps> = ({ replyId, open, onClose }
             rows={4}
             value={content}
             onChange={handleChange}
+            onKeyPress={handleKeyPress} 
             inputProps={{ maxLength: MAX_CHARS }}
             error={Boolean(error)}
             helperText={error || `${content.length}/${MAX_CHARS}`}
