@@ -4,6 +4,7 @@ import { GoogleLoginButton } from 'react-social-login-buttons';
 import { signInWithGoogle, signUpWithEmail } from '../firebase';
 import './SignUp.css'; // カスタムCSSをインポート
 import { Link } from 'react-router-dom';
+import Icon from "../images/Icon.png";
 
 export const SignUp: React.FC = () => {
     const navigate = useNavigate();
@@ -65,6 +66,8 @@ export const SignUp: React.FC = () => {
     return (
         <div className="signup-container">
             <div className="signup-card">
+                <img src={Icon} alt="Logo" style={{ width: '60px', height: '50px' }} />
+                <h1 className='titile'　style={{ color: 'green' }}>みどっぴぴへようこそ</h1>
                 <h2>新規登録</h2>
                 {errorMessage && <div className="error-message">{errorMessage}</div>}
                 <GoogleLoginButton onClick={handleGoogleSignUp} />

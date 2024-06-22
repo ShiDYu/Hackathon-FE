@@ -4,6 +4,7 @@ import { GoogleLoginButton } from 'react-social-login-buttons';
 import { signInWithGoogle, signInWithEmail } from '../firebase';
 import './SignIn.css';
 import { Link } from 'react-router-dom';
+import Icon from "../images/Icon.png";
 
 
 export const SignIn: React.FC = () => {
@@ -44,6 +45,8 @@ export const SignIn: React.FC = () => {
     return (
     <div className="signin-container">
         <div className="signin-card">
+        <img src={Icon} alt="Logo" style={{ width: '60px', height: '50px' }} />
+        <h1 className='titile'　style={{ color: 'green' }}>みどっぴぴへようこそ</h1>
         <h2>ログイン</h2>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <GoogleLoginButton onClick={handleGoogleSignIn} />
