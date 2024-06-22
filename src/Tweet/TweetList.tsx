@@ -12,6 +12,7 @@ import './TweetList.css'; // CSSをインポート
 import ProfileCard from "../User/ProfileCard"; // プロフィールカードをインポート
 import DeleteTweetButton from './DeleteTweet'; // デリートボタンをインポート
 import EditTweetButton from './EditTweet'; // 編集ボタンをインポート
+import {TodayTweetCount} from './TweetCount'; // ツイート数を表示するコンポーネントをインポート
 
 interface Tweet {
   id: number;
@@ -93,6 +94,7 @@ export const TweetList: React.FC = () => {
   return (
     <Box display="flex">
       <Sidebar />
+      <TodayTweetCount />
       <Container maxWidth="md" sx={{ ml: '260px', flex: 1, my: 2, backgroundColor: '#f0f0f0' }}>
         <ProfileCard /> {/* プロフィールカードを追加 */}
         <Box>
