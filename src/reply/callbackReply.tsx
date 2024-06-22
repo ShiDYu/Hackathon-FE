@@ -109,50 +109,51 @@ export const RepliesToReply: React.FC<RepliesProps> = ({ replyId }) => {
 
     return (
         <Box>
-            {replies.map((reply: any) => (
-                <Box key={reply.id} sx={{ mb: 2 }}>
-                    <Divider />
-                    <Box sx={{ p: 2, display: 'flex', alignItems: 'flex-start' }}>
-                        <Avatar alt={reply.nickname} src={reply.avatar_url} sx={{ mt:1,width: 40, height: 40, mr: 2, border: '2px solid #1DA1F2', borderRadius: '50%' }} />
-                        <Box>
-                            <Typography variant="h6" component="div">
-                                {reply.nickname}
-                            </Typography>
-                            <Typography variant="caption" color="textSecondary">
-                                {new Date(reply.createdAt).toLocaleString()}
-                            </Typography>
-                            <Typography variant="body1" sx={{ mt: 1 }}>
-                                {formatReplyContent(reply.content)}
-                            </Typography>
-                            <Box display="flex" alignItems="center" sx={{ mt: 1 }}>
-                                <LikeButtonForreply replyId={reply.id} userId={userId || ""} />
-                                <IconButton onClick={() => handleReplyClick(reply.id)} sx={{ ml: 1 }}>
-                                    <ReplyIcon />
-                                </IconButton>
-                                <ReplyReplyCount replyId={reply.id} />
-                                {replyReplyCounts[reply.id] > 0 && (
-                                    <Button onClick={() => toggleReplies(reply.id)} sx={{ marginLeft: '16px' }}>
-                                        {openReplies[reply.id] ? 'Hide Replies' : 'View Replies'}
-                                    </Button>
-                                )}
-                                {userId === reply.uid && (
-                                    <DeleteReplyButton replyId={reply.id} onDelete={handleDelete} sx={{ ml: 2 }}/>
-                                )}
-                            </Box>
-                            {openReplies[reply.id] && (
-                                <Box mt={2}>
-                                    <RepliesToReply replyId={reply.id} />
-                                </Box>
-                            )}
-                        </Box>
+    {replies.map((reply: any) => (
+        <Box key={reply.id} sx={{ mb: 2 }}>
+            <Divider />
+            <Box sx={{ p: 2, display: 'flex', alignItems: 'flex-start' }}>
+                <Avatar alt={reply.nickname} src={reply.avatar_url} sx={{ mt:1, width: 40, height: 40, mr: 2, border: '2px solid #1DA1F2', borderRadius: '50%' }} />
+                <Box>
+                    <Typography variant="h6" component="div">
+                        {reply.nickname}
+                    </Typography>
+                    <Typography variant="caption" color="textSecondary">
+                        {new Date(reply.createdAt).toLocaleString()}
+                    </Typography>
+                    <Typography variant="body1" sx={{ mt: 1 }}>
+                        {formatReplyContent(reply.content)}
+                    </Typography>
+                    <Box display="flex" alignItems="center" sx={{ mt: 1 }}>
+                        <LikeButtonForreply replyId={reply.id} userId={userId || ""} />
+                        <IconButton onClick={() => handleReplyClick(reply.id)} sx={{ ml: 1 }}>
+                            <ReplyIcon />
+                        </IconButton>
+                        <ReplyReplyCount replyId={reply.id} />
+                        {replyReplyCounts[reply.id] > 0 && (
+                            <Button onClick={() => toggleReplies(reply.id)} sx={{ marginLeft: '16px' }}>
+                                {openReplies[reply.id] ? 'Hide Replies' : 'View Replies'}
+                            </Button>
+                        )}
+                        {userId === reply.uid && (
+                            <DeleteReplyButton replyId={reply.id} onDelete={handleDelete} sx={{ ml: 2 }}/>
+                        )}
                     </Box>
-                    <Divider />
+                    {openReplies[reply.id] && (
+                        // ここでサブリプライのスタイルを調整
+                        <Box sx={{ marginLeft: '-83px',p: 2, display: 'flex', alignItems: 'flex-start' }}>
+                            <RepliesToReply replyId={reply.id} />
+                        </Box>
+                    )}
                 </Box>
-            ))}
-            {openReplyFormId !== null && (
-                <ReplyForm replyId={openReplyFormId} open={openReplyFormId !== null} onClose={handleReplyFormClose} />
-            )}
+            </Box>
+            <Divider />
         </Box>
+    ))}
+    {openReplyFormId !== null && (
+        <ReplyForm replyId={openReplyFormId} open={openReplyFormId !== null} onClose={handleReplyFormClose} />
+    )}
+</Box>
     );
 };
 
