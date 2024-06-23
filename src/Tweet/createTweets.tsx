@@ -145,7 +145,9 @@ export const CreateTweet: React.FC = () => {
                         <Typography variant="caption" display="block" sx={{ mt: 1 }}>
                             {tweetContent.length}/{MAX_CHARS}
                         </Typography>
-                        <UploadWidget onUpload={setUploadedImageUrl} />
+                        <div style={{ marginLeft: '-17px' }}>
+      <UploadWidget onUpload={setUploadedImageUrl} />
+    </div>
                         {uploadedImageUrl && (
                             <Box mt={2}>
                                 <img src={uploadedImageUrl} alt="Uploaded" style={{ maxWidth: '100%', borderRadius: '8px' }} />
