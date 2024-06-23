@@ -58,6 +58,13 @@ export const Profile: React.FC = () => {
         }
     };
 
+    const handleKeyPress = (event: React.KeyboardEvent) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            handleProfileUpdate();
+        }
+    };
+
     return (
         <div className="profile-page-container">
             <Sidebar/>
@@ -72,11 +79,11 @@ export const Profile: React.FC = () => {
                     <div className="profile-input-container">
                         <label>
                             Name
-                            <input type="text" value={nickname} onChange={(e) => setNickname(e.target.value)} />
+                            <input type="text" value={nickname} onChange={(e) => setNickname(e.target.value)} onKeyPress={handleKeyPress} />
                         </label>
                         <label>
                             Bio
-                            <textarea value={bio} onChange={(e) => setBio(e.target.value)}></textarea>
+                            <textarea value={bio} onChange={(e) => setBio(e.target.value)} onKeyPress={handleKeyPress}></textarea>
                         </label>
                     </div>
                 </div>

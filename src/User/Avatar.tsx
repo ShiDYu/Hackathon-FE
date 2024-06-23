@@ -29,8 +29,16 @@ export const Avatar: React.FC = () => {
         fetchAvatar();
     }, []);
 
+    const handleKeyPress = (event: React.KeyboardEvent) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            navigate('/tweets');
+        }
+    };
+    
+
     return (
-        <div className="avatar-container">
+        <div className="avatar-container" onKeyPress={handleKeyPress} tabIndex={0}>
             <h2 className="YourAvatar">あなたのアバター</h2>
             {avatarUrl ? (
                 <img src={avatarUrl} alt="Avatar" className="Avatar"/>
