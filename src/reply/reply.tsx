@@ -119,7 +119,7 @@ export const Replies: React.FC<ParentTweetProps> = ({ tweetId }) => {
             {reply.nickname}
           </Typography>
           <Typography variant="caption" color="textSecondary">
-            {new Date(reply.createdAt).toLocaleString()}
+            {new Date(reply.created_at).toLocaleString()}
           </Typography>
           <Typography variant="body1" sx={{ mt: 1 }}>
             {formatReplyContent(reply.content)}
