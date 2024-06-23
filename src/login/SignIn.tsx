@@ -46,7 +46,7 @@ export const SignIn: React.FC = () => {
     <div className="signin-container">
         <div className="signin-card">
         <img src={Icon} alt="Logo" style={{ width: '60px', height: '50px' }} />
-        <h1 className='titile'　style={{ color: 'green' }}>みどっぴぴへようこそ</h1>
+        <h1 className='titile'　style={{ color: 'green' }}>みどぴっぴへようこそ</h1>
         <h2>ログイン</h2>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <GoogleLoginButton onClick={handleGoogleSignIn} />

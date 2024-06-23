@@ -67,7 +67,7 @@ export const SignUp: React.FC = () => {
         <div className="signup-container">
             <div className="signup-card">
                 <img src={Icon} alt="Logo" style={{ width: '60px', height: '50px' }} />
-                <h1 className='titile'　style={{ color: 'green' }}>みどっぴぴへようこそ</h1>
+                <h1 className='titile'　style={{ color: 'green' }}>みどぴっぴへようこそ</h1>
                 <h2>新規登録</h2>
                 {errorMessage && <div className="error-message">{errorMessage}</div>}
                 <GoogleLoginButton onClick={handleGoogleSignUp} />
